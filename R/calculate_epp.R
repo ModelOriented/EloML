@@ -112,5 +112,4 @@ calculate_epp_score <- function(results, decreasing_metric = TRUE, compare_in_sp
 
   create_summary_model(model_epp)
 
-
 }
