@@ -21,9 +21,8 @@ calculate_pca <- function(list_epp_score, transformation_formula = as.formula("D
 
   rbind_epp_score <- rbindlist(list_epp_score, idcol = "DATASET")
 
-  rbind_epp_score_wide <- rbind_epp_score %>%
-    setDT() %>%
-    dcast(transformation_formula, value.var = value.var)
+  rbind_epp_score_wide <- setDT(rbind_epp_score)
+  rbind_epp_score_wide <- dcast(rbind_epp_score_wide, transformation_formula, value.var = value.var)
 
   epp_score_pca <- PCA(rbind_epp_score_wide[,-1], ...)
 

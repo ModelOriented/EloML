@@ -11,20 +11,17 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
   tmp <- base::merge(results,  list_models, by=NULL)
   tmp <- filter(tmp, model  != compare_with)
 
-
   if(compare_in_split){
     tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model", "split"="split"))
   }else{
     tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model"))
   }
 
-
   tmp_joined <- mutate(tmp_joined, WIN = compare_function(score.x, score.y))
   tmp_joined <- rename(tmp_joined, WINNER = model, LOSER = compare_with)
   tmp_joined <- group_by(tmp_joined, WINNER, LOSER )
   tmp_joined <- summarise(tmp_joined, MATCH = n(), WINS = sum(WIN))
   tmp_joined
-
 }
 
 
@@ -33,8 +30,6 @@ create_summary_model <- function(model){
   vector_coeff_model <- coefficients(model)
   all_levels <- c(paste0("WINNER", as.vector(unique(model$data$WINNER))),
                   paste0("LOSER", as.vector(unique(model$data$WINNER))))
-
-
 
   base_level <- setdiff(all_levels, names(vector_coeff_model))
 
@@ -76,7 +71,6 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 
   }
 
-
   unique_model <- unique(results$model)
 
   summary_results <-  calculate_wins_all_model(results = results,
@@ -106,5 +100,4 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
   model_epp <- glm(cbind(WINS, MATCH - WINS) ~0+ WINNER + LOSER, data = actual_score, family = "binomial")
 
   create_summary_model(model_epp)
-
 }
