@@ -1,8 +1,6 @@
-
 #' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
-NULL
-
+#' @noRd
 calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
   # some tricks to get rid of notes about 'ins'no visible binding' notes
   model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
@@ -27,6 +25,7 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 }
 
 #' @importFrom stats coefficients
+#' @noRd
 create_summary_model <- function(model_epp){
 
   vector_coeff_model <- coefficients(model_epp)
@@ -81,7 +80,7 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 #' @title Preparing matrix of contrasts
 #'
 #' @param actual_score A data frame created with function calculate_actual_wins.
-#'
+#' @noRd
 prepare_contrasts <- function(actual_score){
    num_level <- nlevels(actual_score$players)
    contrasts <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
@@ -102,11 +101,21 @@ prepare_contrasts <- function(actual_score){
 
 #' @title Calulate EPP score for all models
 #'
-#' @param results data frame with results for one dataset
+#' @param results data frame with results for one dataset. Data should be in the following format.
+#' First 3 columns should correspond to: model, split, score. See more in 'details' section.
 #' @param decreasing_metric Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
 #' If FALSE used metric will be considered as increasing.
 #' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
 #' @param keep_data Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
+#'
+#' @details Format of the data frame passed via results parameter.
+#' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
+#' Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
+#' with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
+#' Indexes of splits should be in this column. And should match across models.
+#' Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
+#' just remember to set the \code{decreasing_metric} parameter accordingly.
+#' The following columns can be of any kind.
 #'
 #' @examples
 #' library(epp)

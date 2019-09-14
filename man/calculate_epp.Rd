@@ -8,7 +8,8 @@ calculate_epp(results, decreasing_metric = TRUE,
   compare_in_split = TRUE, keep_data = FALSE)
 }
 \arguments{
-\item{results}{data frame with results for one dataset}
+\item{results}{data frame with results for one dataset. Data should be in the following format.
+First 3 columns should correspond to: model, split, score. See more in 'details' section.}
 
 \item{decreasing_metric}{Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
 If FALSE used metric will be considered as increasing.}
@@ -19,6 +20,16 @@ If FALSE used metric will be considered as increasing.}
 }
 \description{
 Calulate EPP score for all models
+}
+\details{
+Format of the data frame passed via results parameter.
+First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
+Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
+with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
+Indexes of splits should be in this column. And should match across models.
+Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
+just remember to set the \code{decreasing_metric} parameter accordingly.
+The following columns can be of any kind.
 }
 \examples{
 library(epp)

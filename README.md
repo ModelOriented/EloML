@@ -12,5 +12,12 @@ Installation
 
 ```
 source("https://install-github.me/ModelOriented/epp")
+```
 
+Usage
+
+```
+library(epp)
+data(auc_scores)
+calculate_epp(auc_scores)
 ```
