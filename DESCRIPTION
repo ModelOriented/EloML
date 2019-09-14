@@ -8,13 +8,12 @@ Authors@R: c(
       comment = c(ORCID = "0000-0001-8423-1823"))
   )
 Description: Provides an easy to use unified interface for calculating Elo scores of machine learning models.
-Depends: R (>= 3.0.0)
+Depends: R (>= 3.5.0)
 License: GPL
 Encoding: UTF-8
 LazyData: true
 Imports: 
     dplyr,
-    stringr,
     data.table,
     FactoMineR
 RoxygenNote: 6.1.1

@@ -9,6 +9,7 @@
 #' @param ... other arguments pass to PCA function
 #' @importFrom data.table rbindlist setDT dcast
 #' @importFrom FactoMineR PCA
+#' @importFrom stats as.formula
 #' @export
 
 

@@ -1,10 +1,11 @@
 
 #' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
-#' @importFrom stringr str_match
 NULL
 
 calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
+  # some tricks to get rid of notes about 'ins'no visible binding' notes
+  model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
 
   list_models <- data.frame(compare_with = list_models)
 
@@ -17,30 +18,26 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
     tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model"))
   }
 
-  tmp_joined <- mutate(tmp_joined, WIN = compare_function(score.x, score.y))
-  tmp_joined <- rename(tmp_joined, WINNER = model, LOSER = compare_with)
-  tmp_joined <- group_by(tmp_joined, WINNER, LOSER )
-  tmp_joined <- summarise(tmp_joined, MATCH = n(), WINS = sum(WIN))
+  tmp_joined <- mutate(tmp_joined, win = compare_function(score.x, score.y))
+  tmp_joined <- rename(tmp_joined, winner = model, loser = compare_with)
+  tmp_joined <- group_by(tmp_joined, winner, loser )
+  tmp_joined <- summarise(tmp_joined, match = n(), wins = sum(win))
+  tmp_joined$players <- factor(paste(tmp_joined$winner, tmp_joined$loser))
   tmp_joined
 }
 
+#' @importFrom stats coefficients
+create_summary_model <- function(model_epp){
 
-create_summary_model <- function(model){
+  vector_coeff_model <- coefficients(model_epp)
+  names(vector_coeff_model) <- gsub("^players", "", names(vector_coeff_model))
+  #last model gains Intercept coefficitent
+  vector_coeff_model[length(vector_coeff_model)] <- vector_coeff_model[1]
+  # Now we remove Intercept
+  vector_coeff_model <- vector_coeff_model[-1]
 
-  vector_coeff_model <- coefficients(model)
-  all_levels <- c(paste0("WINNER", as.vector(unique(model$data$WINNER))),
-                  paste0("LOSER", as.vector(unique(model$data$WINNER))))
-
-  base_level <- setdiff(all_levels, names(vector_coeff_model))
-
-  vector_coeff_model[base_level] <- 0
-  result <- data.frame(SIDE = str_match(names(vector_coeff_model), "[A-Z]+"),
-             MODEL = str_match(names(vector_coeff_model), "[a-z]+.*") ,
-             COEFF = round(vector_coeff_model, 3))
-
-  result <- setDT(result)
-  result <- dcast(result, MODEL~SIDE , value.var = "COEFF")
-  result <- mutate(result,EPP = (WINNER - LOSER)/2)
+  result <- data.frame(model = names(vector_coeff_model),
+             epp = vector_coeff_model)
   result
 }
 
@@ -81,23 +78,64 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
   summary_results
 }
 
-#' Calulate EPP score for all models
+#' @title Preparing matrix of contrasts
 #'
+#' @param actual_score A data frame created with function calculate_actual_wins.
+#'
+prepare_contrasts <- function(actual_score){
+   num_level <- nlevels(actual_score$players)
+   contrasts <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
+   colnames(contrasts) <- levels(actual_score$winner)
+   rownames(contrasts) <- levels(actual_score$players)
+
+   model_winner <- gsub(" .*", "", rownames(contrasts))
+   model_loser <- gsub(".+? ", "", rownames(contrasts))
+
+   for(col in colnames(contrasts)) {
+       contrasts[col == model_winner, col] <- 1
+       contrasts[col == model_loser, col] <- -1
+   }
+
+  contrasts
+}
+
+
+#' @title Calulate EPP score for all models
 #'
 #' @param results data frame with results for one dataset
-#' @param decreasing_metric if used metric is decreasing. If TRUE Model with higher score value is better.
-#' @param compare_in_split if compare models and parameters only in the same fold
+#' @param decreasing_metric Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
+#' If FALSE used metric will be considered as increasing.
+#' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
+#' @param keep_data Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
+#'
+#' @examples
+#' library(epp)
+#' data(auc_scores)
+#' calculate_epp(auc_scores)
 #'
 #' @export
 #' @importFrom stats glm
-calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE){
+calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE){
   # some cleaning to make unified naming
   colnames(results) <- c("model", "split", "score")
-  results[,"model"] <- factor(results[,"model"])
+  results[, "model"] <- factor(results[, "model"])
 
   actual_score <- calculate_actual_wins(results = results, decreasing_metric = decreasing_metric, compare_in_split=compare_in_split)
 
-  model_epp <- glm(cbind(WINS, MATCH - WINS) ~0+ WINNER + LOSER, data = actual_score, family = "binomial")
+  contrasts <- prepare_contrasts(actual_score)
+  model_epp <- glm(cbind(wins, match - wins) ~ players, data = actual_score, family = "binomial",
+                   contrasts = list(players = contrasts))
 
-  create_summary_model(model_epp)
+  res <- create_summary_model(model_epp)
+  rownames(res) <- NULL
+  if(keep_data == TRUE) res <- cbind(results, res$epp)
+
+  res
 }
+
+
+
+
+
+
+

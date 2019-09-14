@@ -5,15 +5,24 @@
 \title{Calulate EPP score for all models}
 \usage{
 calculate_epp(results, decreasing_metric = TRUE,
-  compare_in_split = TRUE)
+  compare_in_split = TRUE, keep_data = FALSE)
 }
 \arguments{
 \item{results}{data frame with results for one dataset}
 
-\item{decreasing_metric}{if used metric is decreasing. If TRUE Model with higher score value is better.}
+\item{decreasing_metric}{Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
+If FALSE used metric will be considered as increasing.}
 
-\item{compare_in_split}{if compare models and parameters only in the same fold}
+\item{compare_in_split}{Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.}
+
+\item{keep_data}{Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.}
 }
 \description{
 Calulate EPP score for all models
+}
+\examples{
+library(epp)
+data(auc_scores)
+calculate_epp(auc_scores)
+
 }
