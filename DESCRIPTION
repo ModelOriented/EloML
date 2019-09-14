@@ -2,15 +2,12 @@ Package: epp
 Title: Elo-based Pedictive Power for algorithms and datasets 
 Version: 0.1.0
 Authors@R: c(
-    person("Katarzyna", "Woznica", email = "TODOemail@emial.com", role=c("aut", "cre")),
-    person("Alicja", "Gosiewska", role = "aut",
-      comment = c(ORCID = "0000-0001-6563-5742")),
+     person("Alicja", "Gosiewska", email = "alicjagosiewska@gmail.com",role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6563-5742")),
+    person("Katarzyna", "Woznica", role= "aut"),
     person("Przemyslaw", "Biecek", role =  "aut",
       comment = c(ORCID = "0000-0001-8423-1823"))
   )
-Description: Provides an easy to use unified interface for creating validation plots for any model. 
-  The 'auditor' helps to avoid repetitive work consisting of writing code needed to create residual plots. 
-  This visualizations allow to asses and compare the goodness of fit, performance, and similarity of models. 
+Description: Provides an easy to use unified interface for calculating Elo scores of machine learning models.
 Depends: R (>= 3.0.0)
 License: GPL
 Encoding: UTF-8
