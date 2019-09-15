@@ -118,7 +118,7 @@ prepare_contrasts <- function(actual_score){
 #' The following columns can be of any kind.
 #'
 #' @examples
-#' library(epp)
+#' library(EloML)
 #' data(auc_scores)
 #' calculate_epp(auc_scores)
 #'

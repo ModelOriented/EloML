@@ -1,5 +1,5 @@
-Package: epp
-Title: Elo-based Pedictive Power for algorithms and datasets 
+Package: EloML
+Title: Elo rating system for machine learning models
 Version: 0.1.0
 Authors@R: c(
      person("Alicja", "Gosiewska", email = "alicjagosiewska@gmail.com",role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6563-5742")),
@@ -7,7 +7,8 @@ Authors@R: c(
     person("Przemyslaw", "Biecek", role =  "aut",
       comment = c(ORCID = "0000-0001-8423-1823"))
   )
-Description: Provides an easy to use unified interface for calculating Elo scores of machine learning models.
+Description: Provides an easy to use unified interface for calculating Elo scores of machine learning models.  
+  Elo Predictive Power (EPP) score helps to assess model performance based Elo ranking system. 
 Depends: R (>= 3.5.0)
 License: GPL
 Encoding: UTF-8
@@ -17,7 +18,7 @@ Imports:
     data.table,
     FactoMineR
 RoxygenNote: 6.1.1
-URL: https://github.com/ModelOriented/epp
-BugReports: https://github.com/ModelOriented/epp/issues
+URL: https://github.com/ModelOriented/EloML
+BugReports: https://github.com/ModelOriented/EloML/issues
 Suggests: 
     testthat

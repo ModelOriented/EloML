@@ -32,7 +32,7 @@ just remember to set the \code{decreasing_metric} parameter accordingly.
 The following columns can be of any kind.
 }
 \examples{
-library(epp)
+library(EloML)
 data(auc_scores)
 calculate_epp(auc_scores)
 

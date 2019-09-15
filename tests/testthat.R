@@ -1,4 +1,4 @@
 library(testthat)
-library(epp)
+library(EloML)
 
-test_check("epp")
+test_check("EloML")
