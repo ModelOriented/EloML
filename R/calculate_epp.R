@@ -74,7 +74,7 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
                                                compare_in_split = compare_in_split,
                                                compare_function = is_metric1_better)
 
-  summary_results
+  as.data.frame(summary_results)
 }
 
 #' @title Preparing matrix of contrasts
@@ -139,7 +139,8 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
   res <- create_summary_model(model_epp)
   rownames(res) <- NULL
   if(keep_data == TRUE) {
-    res <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
+    tmp <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
+    res <- cbind(tmp$epp, results)
   }
 
   res
