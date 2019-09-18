@@ -126,10 +126,11 @@ prepare_contrasts <- function(actual_score){
 #' @importFrom stats glm
 calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE){
   # some cleaning to make unified naming
-  colnames(results) <- c("model", "split", "score")
-  results[, "model"] <- factor(results[, "model"])
+  models_results <- results[, 1:3]
+  colnames(models_results) <- c("model", "split", "score")
+  models_results[, "model"] <- factor(models_results[, "model"])
 
-  actual_score <- calculate_actual_wins(results = results, decreasing_metric = decreasing_metric, compare_in_split=compare_in_split)
+  actual_score <- calculate_actual_wins(results = models_results, decreasing_metric = decreasing_metric, compare_in_split=compare_in_split)
 
   contrasts <- prepare_contrasts(actual_score)
   model_epp <- glm(cbind(wins, match - wins) ~ players, data = actual_score, family = "binomial",
@@ -137,7 +138,9 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   res <- create_summary_model(model_epp)
   rownames(res) <- NULL
-  if(keep_data == TRUE) res <- cbind(results, res$epp)
+  if(keep_data == TRUE) {
+    res <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
+  }
 
   res
 }
