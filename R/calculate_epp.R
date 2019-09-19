@@ -30,8 +30,8 @@ create_summary_model <- function(model_epp){
 
   vector_coeff_model <- coefficients(model_epp)
   names(vector_coeff_model) <- gsub("^players", "", names(vector_coeff_model))
-  #last model gains Intercept coefficitent
-  vector_coeff_model[length(vector_coeff_model)] <- vector_coeff_model[1]
+  #model with NA coefficients gain 0 coefficitent
+  vector_coeff_model[is.na(vector_coeff_model)] <- 0
   # Now we remove Intercept
   vector_coeff_model <- vector_coeff_model[-1]
 
@@ -141,6 +141,7 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
   if(keep_data == TRUE) {
     tmp <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
     res <- cbind(tmp$epp, results)
+    colnames(res)[1] <- "epp"
   }
 
   res
