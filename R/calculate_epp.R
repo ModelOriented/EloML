@@ -148,6 +148,7 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
   if(keep_data == TRUE) {
     tmp <- merge(res, models_results, by = "model")
     res <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
+    colnames(res)[1:3] <- colnames(results)[1:3]
   }
 
   res
