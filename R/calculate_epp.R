@@ -145,11 +145,9 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
     reference_level <- res[which(res[,"model"] == reference) ,"epp"][1]
     res[,"epp"] <- res[,"epp"] - reference_level
   }
-
   if(keep_data == TRUE) {
-    tmp <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
-    res <- cbind(tmp$epp, results)
-    colnames(res)[1] <- "epp"
+    tmp <- merge(res, models_results, by = "model")
+    res <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
   }
 
   res
