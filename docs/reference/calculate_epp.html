@@ -125,7 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>calculate_epp</span>(<span class='no'>results</span>, <span class='kw'>decreasing_metric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>compare_in_split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>keep_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>compare_in_split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>keep_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reference</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,6 +147,11 @@ If FALSE used metric will be considered as increasing.</p></td>
     <tr>
       <th>keep_data</th>
       <td><p>Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.</p></td>
+    </tr>
+    <tr>
+      <th>reference</th>
+      <td><p>Model that should be a reference level for EPP scores. It should be a name of one of the models from
+'results' data frame. If NULL, none of the models will be chosen.</p></td>
     </tr>
     </table>
 

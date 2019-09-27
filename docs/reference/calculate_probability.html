@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • EloML</title>
+<title>Calculate probability of winning — calculate_probability • EloML</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Calculate probability of winning — calculate_probability" />
+<meta property="og:description" content="Probability of winning of one model 1 is the logit of the difference between EPP score of this model and opponent model 2." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +64,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,66 +113,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Calculate probability of winning</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/transform_epp.R'><code>R/transform_epp.R</code></a></small>
+    <div class="hidden name"><code>calculate_probability.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Probability of winning of one model 1 is the logit of the difference between EPP score of this model and opponent model 2.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>calculate_probability</span>(<span class='no'>epp_1</span>, <span class='no'>epp_2</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="auc_scores.html">auc_scores</a></code> </p>
-        </td>
-        <td><p>AUC scores of models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_actual_wins.html">calculate_actual_wins()</a></code> </p>
-        </td>
-        <td><p>Calulate actual results for every pair of models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_epp.html">calculate_epp()</a></code> </p>
-        </td>
-        <td><p>Calulate EPP score for all models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_pca.html">calculate_pca()</a></code> </p>
-        </td>
-        <td><p>PCA for models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_probability.html">calculate_probability()</a></code> </p>
-        </td>
-        <td><p>Calculate probability of winning</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>epp_1</th>
+      <td><p>EPP score of model 1.</p></td>
+    </tr>
+    <tr>
+      <th>epp_2</th>
+      <td><p>EPP score of model 2.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
+
   </div>
 </div>
 
