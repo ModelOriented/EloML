@@ -36,11 +36,10 @@
 
 
 <meta property="og:title" content="Calulate EPP score for all models — calculate_epp" />
-
 <meta property="og:description" content="Calulate EPP score for all models" />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -122,14 +121,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Calulate EPP score for all models</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>calculate_epp</span>(<span class='no'>results</span>, <span class='kw'>decreasing_metric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>compare_in_split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>keep_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -152,7 +149,7 @@ If FALSE used metric will be considered as increasing.</p></td>
       <td><p>Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Format of the data frame passed via results parameter.
@@ -163,101 +160,98 @@ Indexes of splits should be in this column. And should match across models.
 Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
 just remember to set the <code>decreasing_metric</code> parameter accordingly.
 The following columns can be of any kind.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>EloML</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>auc_scores</span>)
-<span class='fu'>calculate_epp</span>(<span class='no'>auc_scores</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</span></div><div class='output co'>#&gt;              model          epp
-#&gt; 1       catboost_1  -0.80310655
-#&gt; 2       catboost_2   2.92737911
-#&gt; 3       catboost_3  -2.06876823
-#&gt; 4            gbm_1 -34.17937952
-#&gt; 5           gbm_10   1.67375851
-#&gt; 6           gbm_11   2.72549809
-#&gt; 7            gbm_2   1.26754392
-#&gt; 8            gbm_3  -0.17923285
-#&gt; 9            gbm_4 -32.60978901
-#&gt; 10           gbm_5 -21.46324830
-#&gt; 11           gbm_6 -28.57294825
-#&gt; 12           gbm_7   1.11048994
-#&gt; 13           gbm_8 -19.61875543
-#&gt; 14           gbm_9   1.29448886
-#&gt; 15        glmnet_1 -19.89176506
-#&gt; 16       glmnet_10 -22.19062878
-#&gt; 17       glmnet_11 -44.36998857
-#&gt; 18        glmnet_2 -44.36998857
-#&gt; 19        glmnet_3 -44.36998857
-#&gt; 20        glmnet_4 -25.67254948
-#&gt; 21        glmnet_5 -44.36998857
-#&gt; 22        glmnet_6 -27.96898698
-#&gt; 23        glmnet_7 -30.45058970
-#&gt; 24        glmnet_8 -44.36998857
-#&gt; 25        glmnet_9 -44.36998857
-#&gt; 26          kknn_1 -25.24587475
-#&gt; 27         kknn_10 -25.24587475
-#&gt; 28         kknn_11 -23.39728197
-#&gt; 29          kknn_2 -21.98948630
-#&gt; 30          kknn_3 -27.90557132
-#&gt; 31          kknn_4 -23.70831004
-#&gt; 32          kknn_5 -22.06787186
-#&gt; 33          kknn_6 -22.21708876
-#&gt; 34          kknn_7 -22.27907377
-#&gt; 35          kknn_8 -30.21374205
-#&gt; 36          kknn_9 -30.21374205
-#&gt; 37  randomForest_1   2.14555397
-#&gt; 38 randomForest_10   0.32058577
-#&gt; 39 randomForest_11   2.02105346
-#&gt; 40  randomForest_2   1.55332801
-#&gt; 41  randomForest_3   1.09446546
-#&gt; 42  randomForest_4   2.25975140
-#&gt; 43  randomForest_5   2.11707813
-#&gt; 44  randomForest_6   1.98548542
-#&gt; 45  randomForest_7   2.22399978
-#&gt; 46  randomForest_8   1.89287613
-#&gt; 47  randomForest_9   1.47569672
-#&gt; 48        ranger_1   1.41592697
-#&gt; 49       ranger_10   2.64257254
-#&gt; 50       ranger_11   3.07750846
-#&gt; 51        ranger_2   2.18474674
-#&gt; 52        ranger_3   2.71790594
-#&gt; 53        ranger_4   2.91546845
-#&gt; 54        ranger_5   3.59917250
-#&gt; 55        ranger_6   2.71032495
-#&gt; 56        ranger_7   3.26102899
-#&gt; 57        ranger_8   3.40568901
-#&gt; 58        ranger_9   3.71846154
-#&gt; 59           svm_1 -29.06884202
-#&gt; 60          svm_10 -29.04998649
-#&gt; 61          svm_11 -30.31969406
-#&gt; 62           svm_2 -35.61717026
-#&gt; 63           svm_3 -38.90144358
-#&gt; 64           svm_4 -29.57902149
-#&gt; 65           svm_5 -40.46716846
-#&gt; 66           svm_6 -37.16719006
-#&gt; 67           svm_7 -26.95669190
-#&gt; 68           svm_8 -27.96898698
-#&gt; 69           svm_9 -22.64182875
-#&gt; 70       xgboost_1 -29.94863311
-#&gt; 71      xgboost_10 -20.02570240
-#&gt; 72      xgboost_11   3.13185143
-#&gt; 73       xgboost_2 -19.99519574
-#&gt; 74       xgboost_3   0.24708631
-#&gt; 75       xgboost_4 -20.00538993
-#&gt; 76       xgboost_5   1.14632009
-#&gt; 77       xgboost_6   1.81065306
-#&gt; 78       xgboost_7 -19.91267808
-#&gt; 79       xgboost_8 -20.86121390
-#&gt; 80       xgboost_9  -0.07265424</div><div class='input'>
+<span class='fu'>calculate_epp</span>(<span class='no'>auc_scores</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</span></div><div class='output co'>#&gt;              model         epp
+#&gt; 1       catboost_1  -0.8031066
+#&gt; 2       catboost_2   2.9273791
+#&gt; 3       catboost_3  -2.0687682
+#&gt; 4            gbm_1 -34.1793795
+#&gt; 5           gbm_10   1.6737585
+#&gt; 6           gbm_11   2.7254981
+#&gt; 7            gbm_2   1.2675439
+#&gt; 8            gbm_3  -0.1792329
+#&gt; 9            gbm_4 -32.6097890
+#&gt; 10           gbm_5 -21.4632483
+#&gt; 11           gbm_6 -28.5729482
+#&gt; 12           gbm_7   1.1104899
+#&gt; 13           gbm_8 -19.6187554
+#&gt; 14           gbm_9   1.2944889
+#&gt; 15        glmnet_1 -19.8917651
+#&gt; 16       glmnet_10 -22.1906288
+#&gt; 17       glmnet_11 -44.3699886
+#&gt; 18        glmnet_2 -44.3699886
+#&gt; 19        glmnet_3 -44.3699886
+#&gt; 20        glmnet_4 -25.6725495
+#&gt; 21        glmnet_5 -44.3699886
+#&gt; 22        glmnet_6 -27.9689870
+#&gt; 23        glmnet_7 -30.4505897
+#&gt; 24        glmnet_8 -44.3699886
+#&gt; 25        glmnet_9 -44.3699886
+#&gt; 26          kknn_1 -25.2458748
+#&gt; 27         kknn_10 -25.2458748
+#&gt; 28         kknn_11 -23.3972820
+#&gt; 29          kknn_2 -21.9894863
+#&gt; 30          kknn_3 -27.9055713
+#&gt; 31          kknn_4 -23.7083100
+#&gt; 32          kknn_5 -22.0678719
+#&gt; 33          kknn_6 -22.2170888
+#&gt; 34          kknn_7 -22.2790738
+#&gt; 35          kknn_8 -30.2137421
+#&gt; 36          kknn_9 -30.2137421
+#&gt; 37  randomForest_1   2.1455540
+#&gt; 38 randomForest_10   0.3205858
+#&gt; 39 randomForest_11   2.0210535
+#&gt; 40  randomForest_2   1.5533280
+#&gt; 41  randomForest_3   1.0944655
+#&gt; 42  randomForest_4   2.2597514
+#&gt; 43  randomForest_5   2.1170781
+#&gt; 44  randomForest_6   1.9854854
+#&gt; 45  randomForest_7   2.2239998
+#&gt; 46  randomForest_8   1.8928761
+#&gt; 47  randomForest_9   1.4756967
+#&gt; 48        ranger_1   1.4159270
+#&gt; 49       ranger_10   2.6425725
+#&gt; 50       ranger_11   3.0775085
+#&gt; 51        ranger_2   2.1847467
+#&gt; 52        ranger_3   2.7179059
+#&gt; 53        ranger_4   2.9154685
+#&gt; 54        ranger_5   3.5991725
+#&gt; 55        ranger_6   2.7103250
+#&gt; 56        ranger_7   3.2610290
+#&gt; 57        ranger_8   3.4056890
+#&gt; 58        ranger_9   3.7184615
+#&gt; 59           svm_1 -29.0688420
+#&gt; 60          svm_10 -29.0499865
+#&gt; 61          svm_11 -30.3196941
+#&gt; 62           svm_2 -35.6171703
+#&gt; 63           svm_3 -38.9014436
+#&gt; 64           svm_4 -29.5790215
+#&gt; 65           svm_5 -40.4671685
+#&gt; 66           svm_6 -37.1671901
+#&gt; 67           svm_7 -26.9566919
+#&gt; 68           svm_8 -27.9689870
+#&gt; 69           svm_9 -22.6418288
+#&gt; 70       xgboost_1 -29.9486331
+#&gt; 71      xgboost_10 -20.0257024
+#&gt; 72      xgboost_11   3.1318514
+#&gt; 73       xgboost_2 -19.9951957
+#&gt; 74       xgboost_3   0.2470863
+#&gt; 75       xgboost_4 -20.0053899
+#&gt; 76       xgboost_5   1.1463201
+#&gt; 77       xgboost_6   1.8106531
+#&gt; 78       xgboost_7 -19.9126781
+#&gt; 79       xgboost_8 -20.8612139
+#&gt; 80       xgboost_9   0.0000000</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
