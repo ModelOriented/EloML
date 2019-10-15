@@ -1,14 +1,6 @@
 #' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
 #' @noRd
-<<<<<<< HEAD
-=======
-calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
-  # some tricks to get rid of notes about 'no visible binding' notes
-  model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
-
-  list_models <- data.frame(compare_with = list_models)
->>>>>>> 971ba7e36dcf1db6fc2bba60ec2e20a85139c0cb
 
 calculate_wins_one_model <- function(results,value_compare_with, model_base, split_compare_with, compare_function, compare_in_split =TRUE ){
   if(!compare_in_split){
@@ -18,7 +10,7 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
     results[split == split_compare_with][,.(win = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
   }
- }
+}
 
 
 
@@ -78,7 +70,7 @@ create_summary_model <- function(model_epp){
   vector_coeff_model <- vector_coeff_model[-1]
 
   result <- data.frame(model = names(vector_coeff_model),
-             epp = vector_coeff_model)
+                       epp = vector_coeff_model)
   result
 }
 
@@ -124,18 +116,18 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 #' @param actual_score A data frame created with function calculate_actual_wins.
 #' @noRd
 prepare_contrasts <- function(actual_score){
-   num_level <- nlevels(actual_score$players)
-   contrasts <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
-   colnames(contrasts) <- levels(actual_score$winner)
-   rownames(contrasts) <- levels(actual_score$players)
+  num_level <- nlevels(actual_score$players)
+  contrasts <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
+  colnames(contrasts) <- levels(actual_score$winner)
+  rownames(contrasts) <- levels(actual_score$players)
 
-   model_winner <- gsub(" .*", "", rownames(contrasts))
-   model_loser <- gsub(".+? ", "", rownames(contrasts))
+  model_winner <- gsub(" .*", "", rownames(contrasts))
+  model_loser <- gsub(".+? ", "", rownames(contrasts))
 
-   for(col in colnames(contrasts)) {
-       contrasts[col == model_winner, col] <- 1
-       contrasts[col == model_loser, col] <- -1
-   }
+  for(col in colnames(contrasts)) {
+    contrasts[col == model_winner, col] <- 1
+    contrasts[col == model_loser, col] <- -1
+  }
 
   contrasts
 }
@@ -195,10 +187,3 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   res
 }
-
-
-
-
-
-
-
