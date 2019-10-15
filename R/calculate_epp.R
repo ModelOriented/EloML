@@ -1,6 +1,14 @@
 #' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
 #' @noRd
+<<<<<<< HEAD
+=======
+calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
+  # some tricks to get rid of notes about 'no visible binding' notes
+  model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
+
+  list_models <- data.frame(compare_with = list_models)
+>>>>>>> 971ba7e36dcf1db6fc2bba60ec2e20a85139c0cb
 
 calculate_wins_one_model <- function(results,value_compare_with, model_base, split_compare_with, compare_function, compare_in_split =TRUE ){
   if(!compare_in_split){
@@ -141,6 +149,8 @@ prepare_contrasts <- function(actual_score){
 #' If FALSE used metric will be considered as increasing.
 #' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
 #' @param keep_data Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
+#' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
+#' 'results' data frame. If NULL, none of the models will be chosen.
 #'
 #' @details Format of the data frame passed via results parameter.
 #' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
@@ -158,7 +168,7 @@ prepare_contrasts <- function(actual_score){
 #'
 #' @export
 #' @importFrom stats glm
-calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE){
+calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE, reference = NULL){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
@@ -172,10 +182,15 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   res <- create_summary_model(model_epp)
   rownames(res) <- NULL
+
+  if(!is.null(reference)){
+    reference_level <- res[which(res[,"model"] == reference) ,"epp"][1]
+    res[,"epp"] <- res[,"epp"] - reference_level
+  }
   if(keep_data == TRUE) {
-    tmp <- merge(res, results, by.x = "model", by.y = colnames(results)[1])
-    res <- cbind(tmp$epp, results)
-    colnames(res)[1] <- "epp"
+    tmp <- merge(res, models_results, by = "model")
+    res <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
+    colnames(res)[1:3] <- colnames(results)[1:3]
   }
 
   res
