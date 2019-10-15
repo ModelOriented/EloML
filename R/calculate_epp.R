@@ -1,27 +1,61 @@
 #' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
 #' @noRd
-calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
-  # some tricks to get rid of notes about 'ins'no visible binding' notes
-  model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
 
-  list_models <- data.frame(compare_with = list_models)
+calculate_wins_one_model <- function(results,value_compare_with, model_base, split_compare_with, compare_function, compare_in_split =TRUE ){
+  if(!compare_in_split){
+    results[,.(win = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
-  tmp <- base::merge(results,  list_models, by=NULL)
-  tmp <- filter(tmp, model  != compare_with)
-
-  if(compare_in_split){
-    tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model", "split"="split"))
   }else{
-    tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model"))
+    results[split == split_compare_with][,.(win = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+
+  }
+ }
+
+
+
+
+#' @importFrom dplyr filter left_join mutate rename group_by summarise
+#' @importFrom data.table setDT dcast
+#' @noRd
+calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function){
+  # # some tricks to get rid of notes about 'ins'no visible binding' notes
+  # model <- compare_with <- score.x <- score.y <- winner <- loser <- n <- win <- NULL
+  #
+  # list_models <- data.frame(compare_with = list_models)
+  #
+  # tmp <- base::merge(results,  list_models, by=NULL)
+  # tmp <- filter(tmp, model  != compare_with)
+  #
+  # if(compare_in_split){
+  #   tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model", "split"="split"))
+  # }else{
+  #   tmp_joined <- left_join(tmp, results, by = c("compare_with" = "model"))
+  # }
+  #
+  # tmp_joined <- mutate(tmp_joined, win = compare_function(score.x, score.y))
+  # tmp_joined <- rename(tmp_joined, winner = model, loser = compare_with)
+  # tmp_joined <- group_by(tmp_joined, winner, loser )
+  # tmp_joined <- summarise(tmp_joined, match = n(), wins = sum(win))
+  # tmp_joined$players <- factor(paste(tmp_joined$winner, tmp_joined$loser))
+  # tmp_joined
+
+  results_list <- list()
+  for(i in 1:nrow(results)){
+    row_sel <- i
+    value_compare_with <- results[['score']][row_sel]
+    model_base <- results[['model']][row_sel]
+    split_compare_with <- results[['split']][row_sel]
+
+
+    results_v2 <- calculate_wins_one_model(results = results, value_compare_with = value_compare_with, split_compare_with = split_compare_with, model_base = model_base, compare_function = compare_function, compare_in_split = compare_in_split)
+    results_list[[length(results_list)+1]] <- results_v2
   }
 
-  tmp_joined <- mutate(tmp_joined, win = compare_function(score.x, score.y))
-  tmp_joined <- rename(tmp_joined, winner = model, loser = compare_with)
-  tmp_joined <- group_by(tmp_joined, winner, loser )
-  tmp_joined <- summarise(tmp_joined, match = n(), wins = sum(win))
-  tmp_joined$players <- factor(paste(tmp_joined$winner, tmp_joined$loser))
-  tmp_joined
+  results_list_rbind <- rbindlist(results_list)
+
+  results_list_rbind_summary <- results_list_rbind[,.(match = sum(match), win = sum(win)),by = .(winner, loser)][,players := paste(winner, loser)]
+  return(results_list_rbind_summary)
 }
 
 #' @importFrom stats coefficients
