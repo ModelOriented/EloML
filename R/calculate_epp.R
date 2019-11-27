@@ -107,8 +107,8 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
                                                list_models = unique_model,
                                                compare_in_split = compare_in_split,
                                                compare_function = is_metric1_better,
-                                               aggregate = aggregate) %>%
-    as.data.frame()
+                                               aggregate = aggregate)
+  summary_results <- as.data.frame(summary_results)
 
 
   summary_results$players <- as.factor(summary_results$players)
