@@ -16,7 +16,9 @@ LazyData: true
 Imports: 
     dplyr,
     data.table,
-    FactoMineR
+    FactoMineR,
+    glmnet,
+    Matrix
 RoxygenNote: 7.0.2
 URL: https://github.com/ModelOriented/EloML
 BugReports: https://github.com/ModelOriented/EloML/issues
