@@ -62,10 +62,11 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 #' @noRd
 create_summary_model <- function(model_epp){
 
-  vector_coeff_model <- coefficients(model_epp)
-  names(vector_coeff_model) <- gsub("^players", "", names(vector_coeff_model))
-  #model with NA coefficients gain 0 coefficitent
-  vector_coeff_model[is.na(vector_coeff_model)] <- 0
+  vector_coeff_model <- as.vector(coefficients(model_epp))
+
+  names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
+
+
   # Now we remove Intercept
   vector_coeff_model <- vector_coeff_model[-1]
 
@@ -119,22 +120,23 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 #'
 #' @param actual_score A data frame created with function calculate_actual_wins.
 #' @noRd
+#' @importFrom Matrix Matrix
 
-prepare_contrasts <- function(actual_score){
+prepare_model_matrix <- function(actual_score){
   num_level <- nlevels(actual_score$players)
-  contrasts <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
-  colnames(contrasts) <- levels(actual_score$winner)
-  rownames(contrasts) <- levels(actual_score$players)
+  model_matrix <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
+  colnames(model_matrix) <- levels(actual_score$winner)
+  rownames(model_matrix) <- levels(actual_score$players)
 
-  model_winner <- gsub(" .*", "", rownames(contrasts))
-  model_loser <- gsub(".+? ", "", rownames(contrasts))
+  model_winner <- gsub(" .*", "", rownames(model_matrix))
+  model_loser <- gsub(".+? ", "", rownames(model_matrix))
 
-  for(col in colnames(contrasts)) {
-    contrasts[col == model_winner, col] <- 1
-    contrasts[col == model_loser, col] <- -1
+  for(col in colnames(model_matrix)) {
+    model_matrix[col == model_winner, col] <- 1
+    model_matrix[col == model_loser, col] <- -1
   }
 
-  contrasts
+  model_matrix <- Matrix(model_matrix, sparse = TRUE)
 }
 
 
@@ -164,7 +166,7 @@ prepare_contrasts <- function(actual_score){
 #' calculate_epp(auc_scores)
 #'
 #' @export
-#' @importFrom stats glm
+#' @importFrom glmnet glmnet
 calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE, reference = NULL){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
@@ -173,10 +175,14 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   actual_score <- calculate_actual_wins(results = models_results, decreasing_metric = decreasing_metric, compare_in_split=compare_in_split)
 
-  contrasts <- prepare_contrasts(actual_score)
-  model_epp <- glm(cbind(wins, match - wins) ~ players, data = actual_score, family = "binomial"
-                   ,contrasts = list(players = contrasts)
-                   )
+  glm_model_matrix_sparse <- prepare_model_matrix(actual_score)
+
+  actual_score$loses <- actual_score$match - actual_score$wins
+
+  model_epp <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('loses', 'wins')]),
+                                family = 'binomial', lambda = 0, standardize = FALSE)
+
+
 
   res <- create_summary_model(model_epp)
   rownames(res) <- NULL

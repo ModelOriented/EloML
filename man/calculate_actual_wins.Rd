@@ -4,8 +4,12 @@
 \alias{calculate_actual_wins}
 \title{Calulate actual results for every pair of models}
 \usage{
-calculate_actual_wins(results, decreasing_metric = TRUE,
-  compare_in_split, aggregate = TRUE)
+calculate_actual_wins(
+  results,
+  decreasing_metric = TRUE,
+  compare_in_split,
+  aggregate = TRUE
+)
 }
 \arguments{
 \item{results}{raw results}

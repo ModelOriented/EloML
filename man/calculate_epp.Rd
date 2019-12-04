@@ -4,8 +4,13 @@
 \alias{calculate_epp}
 \title{Calulate EPP score for all models}
 \usage{
-calculate_epp(results, decreasing_metric = TRUE,
-  compare_in_split = TRUE, keep_data = FALSE, reference = NULL)
+calculate_epp(
+  results,
+  decreasing_metric = TRUE,
+  compare_in_split = TRUE,
+  keep_data = FALSE,
+  reference = NULL
+)
 }
 \arguments{
 \item{results}{data frame with results for one dataset. Data should be in the following format.
