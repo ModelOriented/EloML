@@ -4,13 +4,9 @@
 \alias{calculate_epp}
 \title{Calulate EPP score for all models}
 \usage{
-calculate_epp(
-  results,
-  decreasing_metric = TRUE,
-  compare_in_split = TRUE,
-  keep_data = FALSE,
-  reference = NULL
-)
+calculate_epp(results, decreasing_metric = TRUE,
+  compare_in_split = TRUE, keep_columns = FALSE, reference = NULL,
+  keep_data = TRUE)
 }
 \arguments{
 \item{results}{data frame with results for one dataset. Data should be in the following format.
@@ -21,10 +17,12 @@ If FALSE used metric will be considered as increasing.}
 
 \item{compare_in_split}{Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.}
 
-\item{keep_data}{Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.}
+\item{keep_columns}{Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.}
 
 \item{reference}{Model that should be a reference level for EPP scores. It should be a name of one of the models from
 'results' data frame. If NULL, none of the models will be chosen.}
+
+\item{keep_data}{If all the meta-data shoul be keept in result.}
 }
 \description{
 Calulate EPP score for all models

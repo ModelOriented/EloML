@@ -4,12 +4,9 @@
 \alias{calculate_pca}
 \title{PCA for models}
 \usage{
-calculate_pca(
-  list_epp_score,
+calculate_pca(list_epp_score,
   transformation_formula = as.formula("DATASET~MODEL"),
-  value.var = "EPP",
-  ...
-)
+  value.var = "EPP", ...)
 }
 \arguments{
 \item{list_epp_score}{list of data frames with epp scores, list of outputs from calculate_epp_score}

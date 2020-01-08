@@ -6,19 +6,24 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
   setDT(results)
   if(aggregate){
     if(!compare_in_split){
-      results[,.(wins = sum(compare_function(value_compare_with,score)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results <- results[,.(wins = sum(compare_function(value_compare_with,score)), loses = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results <- results[wins + loses == 0, `:=`(wins = match/2,loses = match/2) ]
+
+
 
     }else{
-      results[split == split_compare_with][,.(wins = sum(compare_function(value_compare_with, score)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      #browser()
+      results <- results[split == split_compare_with][,.(wins = sum(compare_function(value_compare_with, score)), loses = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results <- results[wins + loses == 0, `:=`(wins = match/2,loses = match/2) ]
 
     }
   }
   else{
     if(!compare_in_split){
-      results[,`:=`(wins = compare_function(value_compare_with, score), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results[,`:=`(wins = compare_function(value_compare_with, score),loses = sum(compare_function(score,value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
     }else{
-      results[split == split_compare_with][,`:=`(wins = compare_function(value_compare_with, score), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results[split == split_compare_with][,`:=`(wins = compare_function(value_compare_with, score),loses = sum(compare_function(score,value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
     }
   }
@@ -48,7 +53,7 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
   if (aggregate){
 
 
-    results_list_rbind_summary <- results_list_rbind[,.(match = sum(match), wins = sum(wins)),by = .(winner, loser)][,players := paste(winner, loser)]
+    results_list_rbind_summary <- results_list_rbind[,.(match = sum(match), loses = sum(loses), wins = sum(wins)),by = .(winner, loser)][,players := paste(winner, loser)]
     return(results_list_rbind_summary)
   }
   else{
@@ -61,15 +66,22 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 #' @importFrom stats coefficients
 #' @noRd
 create_summary_model <- function(model_epp){
-
-  vector_coeff_model <- as.vector(coefficients(model_epp))
-
-  names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
-
-
+  vector_coeff_model <- coefficients(model_epp)
+  names(vector_coeff_model) <- gsub("^players", "", names(vector_coeff_model))
+  #model with NA coefficients gain 0 coefficitent
+  vector_coeff_model[is.na(vector_coeff_model)] <- 0
   # Now we remove Intercept
   vector_coeff_model <- vector_coeff_model[-1]
+  result <- data.frame(model = names(vector_coeff_model),
+                       epp = vector_coeff_model)
+  result
+}
 
+create_summary_model_glmnet <- function(model_epp, model_names){
+  vector_coeff_model <- as.vector(coefficients(model_epp))
+  names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
+  # Now we replace Intercept with missing model
+  names(vector_coeff_model)[1] <- setdiff(model_names, names(vector_coeff_model))
   result <- data.frame(model = names(vector_coeff_model),
                        epp = vector_coeff_model)
   result
@@ -147,9 +159,10 @@ prepare_model_matrix <- function(actual_score){
 #' @param decreasing_metric Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
 #' If FALSE used metric will be considered as increasing.
 #' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
-#' @param keep_data Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
+#' @param keep_columns Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
 #' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
 #' 'results' data frame. If NULL, none of the models will be chosen.
+#' @param keep_data If all the meta-data shoul be keept in result.
 #'
 #' @details Format of the data frame passed via results parameter.
 #' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
@@ -166,8 +179,8 @@ prepare_model_matrix <- function(actual_score){
 #' calculate_epp(auc_scores)
 #'
 #' @export
-#' @importFrom glmnet glmnet
-calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_data = FALSE, reference = NULL){
+#' @importFrom glmnet glmnet cv.glmnet
+calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE, reference = NULL, keep_data = TRUE){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
@@ -177,14 +190,31 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   glm_model_matrix_sparse <- prepare_model_matrix(actual_score)
 
-  actual_score$loses <- actual_score$match - actual_score$wins
+  #actual_score$loses <- actual_score$match - actual_score$wins
 
-  model_epp <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('loses', 'wins')]),
-                                family = 'binomial', lambda = 0, standardize = FALSE)
+  # model_epp <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('loses', 'wins')]),
+  #                               family = 'binomial', lambda = 0, standardize = FALSE)
+  # df <- as.data.frame(as.matrix(glm_model_matrix_sparse))
+  # df2 <- as.matrix(glm_model_matrix_sparse)
+  # df <- cbind(df, actual_score[,c('loses', 'wins')])
+  # # browser()
+  # model_epp <- glm(cbind(wins, loses)~., data = df, family = "binomial")
+  # coefficients(model_epp)[1:5]
+  #
+  # df3 <- model.matrix(as.formula('cbind(loses, wins)~players'), data = actual_score, contrasts = list(players = df2))
+  # model_epp2 <- glm(cbind(loses, wins)~players, data = actual_score, contrasts = list(players = df2), family = "binomial")
+  # coefficients(model_epp2)[1:5]
+
+  model_epp3 <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('wins', 'loses')]),
+                                family = 'binomial', standardize = FALSE, lambda = 0)
+  # browser()
+  # model_epp4 <- glm4(cbind(wins, loses)~., data = df, family = "binomial")
+
+   model_epp <- model_epp3
 
 
-
-  res <- create_summary_model(model_epp)
+  # res <- create_summary_model(model_epp)
+  res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse))
   rownames(res) <- NULL
 
   if(!is.null(reference)){
@@ -192,11 +222,19 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
     res[,"epp"] <- res[,"epp"] - reference_level
   }
-  if(keep_data == TRUE) {
+  if(keep_columns == TRUE) {
     tmp <- merge(res, models_results, by = "model")
     res <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
     colnames(res)[1:3] <- colnames(results)[1:3]
   }
 
+  if(keep_data == TRUE){
+    res <- list(elo = res,
+                actual_score = actual_score)
+    class(res) <- c("elo_results", "list")
+  } else {
+    res <- list(elo = res)
+    class(res) <- c("elo_results", "list")
+  }
   res
 }
