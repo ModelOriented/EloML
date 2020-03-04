@@ -6,24 +6,31 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
   setDT(results)
   if(aggregate){
     if(!compare_in_split){
-      results <- results[,.(wins = sum(compare_function(value_compare_with,score)), loses = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results <- results[,.(wins = sum(compare_function(value_compare_with, score,)),
+                            loses = sum(compare_function(score, value_compare_with)),
+                            match = .N),
+                         by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
       results <- results[wins + loses == 0, `:=`(wins = match/2,loses = match/2) ]
 
 
 
     }else{
-      #browser()
-      results <- results[split == split_compare_with][,.(wins = sum(compare_function(value_compare_with, score)), loses = sum(compare_function(score,value_compare_with)), match = .N),by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results <- results[split == split_compare_with][,.(wins = sum(compare_function(value_compare_with, score)),
+                                                         loses = sum(compare_function(score, value_compare_with)),
+                                                         match = .N),
+                                                      by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
       results <- results[wins + loses == 0, `:=`(wins = match/2,loses = match/2) ]
 
     }
   }
   else{
     if(!compare_in_split){
-      results[,`:=`(wins = compare_function(value_compare_with, score),loses = sum(compare_function(score,value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results[,`:=`(wins = compare_function(value_compare_with, score),
+                    loses = sum(compare_function(score, value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
     }else{
-      results[split == split_compare_with][,`:=`(wins = compare_function(value_compare_with, score),loses = sum(compare_function(score,value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
+      results[split == split_compare_with][,`:=`(wins = compare_function(value_compare_with, score),
+                                                 loses = sum(compare_function(score, value_compare_with)), match = 1)][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
 
     }
   }
@@ -63,27 +70,18 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
 }
 
+#' @title Extract coefficients from glmnet model
+#'
 #' @importFrom stats coefficients
 #' @noRd
-create_summary_model <- function(model_epp){
-  vector_coeff_model <- coefficients(model_epp)
-  names(vector_coeff_model) <- gsub("^players", "", names(vector_coeff_model))
-  #model with NA coefficients gain 0 coefficitent
-  vector_coeff_model[is.na(vector_coeff_model)] <- 0
-  # Now we remove Intercept
-  vector_coeff_model <- vector_coeff_model[-1]
-  result <- data.frame(model = names(vector_coeff_model),
-                       epp = vector_coeff_model)
-  result
-}
 
 create_summary_model_glmnet <- function(model_epp, model_names){
   vector_coeff_model <- as.vector(coefficients(model_epp))
-  names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
+  # names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
   # Now we replace Intercept with missing model
-  names(vector_coeff_model)[1] <- setdiff(model_names, names(vector_coeff_model))
-  result <- data.frame(model = names(vector_coeff_model),
-                       epp = vector_coeff_model)
+  # names(vector_coeff_model)[1] <- setdiff(names(vector_coeff_model), model_names)
+  result <- data.frame(model = model_names,
+                       epp = vector_coeff_model[-1])
   result
 }
 
@@ -179,43 +177,32 @@ prepare_model_matrix <- function(actual_score){
 #' calculate_epp(auc_scores)
 #'
 #' @export
-#' @importFrom glmnet glmnet cv.glmnet
+#' @importFrom glmnet glmnet cv.glmnet bigGlm
 calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE, reference = NULL, keep_data = TRUE){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
   models_results[, "model"] <- factor(models_results[, "model"])
 
-  actual_score <- calculate_actual_wins(results = models_results, decreasing_metric = decreasing_metric, compare_in_split=compare_in_split)
+  # browser()
+  actual_score <- calculate_actual_wins(results = models_results,
+                                        decreasing_metric = decreasing_metric,
+                                        compare_in_split=compare_in_split)
 
   glm_model_matrix_sparse <- prepare_model_matrix(actual_score)
 
-  #actual_score$loses <- actual_score$match - actual_score$wins
-
-  # model_epp <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('loses', 'wins')]),
-  #                               family = 'binomial', lambda = 0, standardize = FALSE)
-  # df <- as.data.frame(as.matrix(glm_model_matrix_sparse))
-  # df2 <- as.matrix(glm_model_matrix_sparse)
-  # df <- cbind(df, actual_score[,c('loses', 'wins')])
-  # # browser()
-  # model_epp <- glm(cbind(wins, loses)~., data = df, family = "binomial")
-  # coefficients(model_epp)[1:5]
-  #
-  # df3 <- model.matrix(as.formula('cbind(loses, wins)~players'), data = actual_score, contrasts = list(players = df2))
-  # model_epp2 <- glm(cbind(loses, wins)~players, data = actual_score, contrasts = list(players = df2), family = "binomial")
-  # coefficients(model_epp2)[1:5]
-
-  model_epp3 <- glmnet(x = glm_model_matrix_sparse[,-1], y = as.matrix(actual_score[,c('wins', 'loses')]),
-                                family = 'binomial', standardize = FALSE, lambda = 0)
-  # browser()
-  # model_epp4 <- glm4(cbind(wins, loses)~., data = df, family = "binomial")
-
-   model_epp <- model_epp3
+  model_epp <- bigGlm(x = glm_model_matrix_sparse,
+                       y = as.matrix(actual_score[,c('loses', 'wins')]),
+                       family = 'binomial',
+                       standardize = FALSE,
+                       # lambda = 0,
+                       intercept=TRUE,
+                       path = TRUE)
 
 
-  # res <- create_summary_model(model_epp)
   res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse))
   rownames(res) <- NULL
+
 
   if(!is.null(reference)){
     reference_level <- res[which(res[,"model"] == reference) ,"epp"][1]
@@ -236,5 +223,6 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
     res <- list(elo = res)
     class(res) <- c("elo_results", "list")
   }
+  res[["model"]] <- model_epp
   res
 }
