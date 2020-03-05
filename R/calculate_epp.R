@@ -6,7 +6,7 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
   setDT(results)
   if(aggregate){
     if(!compare_in_split){
-      results <- results[,.(wins = sum(compare_function(value_compare_with, score,)),
+      results <- results[,.(wins = sum(compare_function(value_compare_with, score)),
                             loses = sum(compare_function(score, value_compare_with)),
                             match = .N),
                          by = model][,`:=`(winner = model_base, loser = model)][, `:=`(model=NULL)][winner!= loser]
@@ -192,7 +192,7 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = 
   glm_model_matrix_sparse <- prepare_model_matrix(actual_score)
 
   model_epp <- bigGlm(x = glm_model_matrix_sparse,
-                       y = as.matrix(actual_score[,c('loses', 'wins')]),
+                       y = as.matrix(2*actual_score[,c('match', 'wins')]),
                        family = 'binomial',
                        standardize = FALSE,
                        # lambda = 0,
