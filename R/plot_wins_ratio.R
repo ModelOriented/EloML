@@ -5,7 +5,7 @@
 #' @import ggplot2
 #' @export
 plot_wins_ratio <- function(elo){
-
+  ratio <- pred_ratio <- NULL
   if(!("actual_score" %in% names(elo))) stop("Use `keep_data == TRUE` parameter in function `calculate_epp()`")
   actual_score <- elo$actual_score
   elo_score <- elo$elo

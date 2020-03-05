@@ -2,6 +2,7 @@
 #' @noRd
 
 calculate_wins_one_model <- function(results,value_compare_with, model_base, split_compare_with, compare_function, compare_in_split =TRUE, aggregate = TRUE ){
+  loser <- winner <- loses <- wins <- model <- score <- `.` <- `.N` <- `:=` <- NULL
   setDT(results)
   if(aggregate){
     if(!compare_in_split){
@@ -42,7 +43,7 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
 #' @importFrom data.table setDT dcast rbindlist
 #' @noRd
 calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function, aggregate = TRUE){
-
+  loser <- winner <- loses <- wins <- players <- score <- `.` <- `:=` <- NULL
   results_list <- list()
   for(i in 1:nrow(results)){
     row_sel <- i
@@ -75,9 +76,6 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
 create_summary_model_glmnet <- function(model_epp, model_names){
   vector_coeff_model <- as.vector(coefficients(model_epp))
-  # names(vector_coeff_model) <- gsub("^players", "", rownames(coefficients(model_epp)))
-  # Now we replace Intercept with missing model
-  # names(vector_coeff_model)[1] <- setdiff(names(vector_coeff_model), model_names)
   result <- data.frame(model = model_names,
                        epp = vector_coeff_model[-1])
   result
@@ -129,6 +127,7 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 #' @param actual_score A data frame created with function calculate_actual_wins.
 #' @noRd
 #' @importFrom Matrix Matrix
+#' @importFrom  stats binomial glm
 
 prepare_model_matrix <- function(actual_score){
   num_level <- nlevels(actual_score$players)
@@ -197,7 +196,7 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @examples
 #' library(EloML)
 #' data(auc_scores)
-#' calculate_elo(auc_scores)
+#' calculate_elo(auc_scores[1:400,])
 #'
 #' @export
 #' @importFrom glmnet glmnet cv.glmnet bigGlm

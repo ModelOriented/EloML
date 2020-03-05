@@ -48,6 +48,6 @@ The following columns can be of any kind.
 \examples{
 library(EloML)
 data(auc_scores)
-calculate_elo(auc_scores)
+calculate_elo(auc_scores[1:400,])
 
 }
