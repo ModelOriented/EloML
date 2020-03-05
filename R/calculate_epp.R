@@ -135,8 +135,8 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
 prepare_model_matrix <- function(actual_score){
   num_level <- nlevels(actual_score$players)
   model_matrix <- matrix(0,nrow = nlevels(actual_score$players), ncol = nlevels(actual_score$winner))
-  colnames(model_matrix) <- levels(actual_score$winner)
-  rownames(model_matrix) <- levels(actual_score$players)
+  colnames(model_matrix) <- unique(actual_score$winner)
+  rownames(model_matrix) <- unique(actual_score$players)
 
   model_winner <- gsub(" .*", "", rownames(model_matrix))
   model_loser <- gsub(".+? ", "", rownames(model_matrix))
@@ -146,7 +146,31 @@ prepare_model_matrix <- function(actual_score){
     model_matrix[col == model_loser, col] <- -1
   }
 
-  model_matrix <- Matrix(model_matrix, sparse = TRUE)
+  model_matrix
+}
+
+
+
+fit_glm_model <- function(glm_model_matrix, actual_score){
+
+  model_data <- cbind(actual_score[,c("wins","loses")], as.data.frame(glm_model_matrix))
+
+  model_epp <- glm(cbind(wins, loses)~.,
+                    data = model_data,
+                    family = binomial)
+
+}
+
+
+fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
+
+  model_epp <- bigGlm(x = glm_model_matrix_sparse,
+                      y = as.matrix(actual_score[,c('loses', 'wins')]),
+                      family = 'binomial',
+                      standardize = FALSE,
+                      intercept=TRUE,
+                      path = TRUE)
+
 }
 
 
@@ -161,6 +185,7 @@ prepare_model_matrix <- function(actual_score){
 #' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
 #' 'results' data frame. If NULL, none of the models will be chosen.
 #' @param keep_data If all the meta-data shoul be keept in result.
+#' @param estimation Method of estimating elo coefficients, 'glm' or 'glmnet'.
 #'
 #' @details Format of the data frame passed via results parameter.
 #' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
@@ -174,33 +199,34 @@ prepare_model_matrix <- function(actual_score){
 #' @examples
 #' library(EloML)
 #' data(auc_scores)
-#' calculate_epp(auc_scores)
+#' calculate_elo(auc_scores)
 #'
 #' @export
 #' @importFrom glmnet glmnet cv.glmnet bigGlm
-calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE, reference = NULL, keep_data = TRUE){
+calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE,
+                          reference = NULL, keep_data = TRUE, estimation = "glm"){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
+  models_results <- models_results[order(models_results[["model"]], models_results[["split"]]),]
   models_results[, "model"] <- factor(models_results[, "model"])
 
-  # browser()
   actual_score <- calculate_actual_wins(results = models_results,
                                         decreasing_metric = decreasing_metric,
                                         compare_in_split=compare_in_split)
 
-  glm_model_matrix_sparse <- prepare_model_matrix(actual_score)
+  glm_model_matrix <- prepare_model_matrix(actual_score)
 
-  model_epp <- bigGlm(x = glm_model_matrix_sparse,
-                       y = as.matrix(2*actual_score[,c('match', 'wins')]),
-                       family = 'binomial',
-                       standardize = FALSE,
-                       # lambda = 0,
-                       intercept=TRUE,
-                       path = TRUE)
+  if(estimation == "glm"){
+    model_epp <- fit_glm_model(glm_model_matrix, actual_score)
+    res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix))
+    res[nrow(res),2] <- 0
+  } else if(estimation == "glmnet"){
+    glm_model_matrix_sparse <- Matrix(glm_model_matrix, sparse = TRUE)
+    model_epp <- fit_glmnet_model(glm_model_matrix_sparse, actual_score)
+    res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse))
+  }
 
-
-  res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse))
   rownames(res) <- NULL
 
 
