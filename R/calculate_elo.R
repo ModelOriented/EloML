@@ -1,4 +1,3 @@
-#' @importFrom dplyr filter left_join mutate rename group_by summarise
 #' @importFrom data.table setDT dcast
 #' @noRd
 
@@ -40,8 +39,7 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
 
 
 
-#' @importFrom dplyr filter left_join mutate rename group_by summarise
-#' @importFrom data.table setDT dcast
+#' @importFrom data.table setDT dcast rbindlist
 #' @noRd
 calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function, aggregate = TRUE){
 

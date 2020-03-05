@@ -14,9 +14,7 @@ License: GPL
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    dplyr,
     data.table,
-    FactoMineR,
     ggplot2,
     glmnet,
     Matrix

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate probability of winning — calculate_probability • EloML</title>
+<title>Plot true ratio vs predicted probability — plot_wins_ratio • EloML</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Calculate probability of winning — calculate_probability" />
-<meta property="og:description" content="Probability of winning of one model 1 is the logit of the difference between EPP score of this model and opponent model 2." />
+<meta property="og:title" content="Plot true ratio vs predicted probability — plot_wins_ratio" />
+<meta property="og:description" content="Plot true ratio vs predicted probability" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -115,27 +115,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate probability of winning</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/transform_elo.R'><code>R/transform_elo.R</code></a></small>
-    <div class="hidden name"><code>calculate_probability.Rd</code></div>
+    <h1>Plot true ratio vs predicted probability</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/plot_wins_ratio.R'><code>R/plot_wins_ratio.R</code></a></small>
+    <div class="hidden name"><code>plot_wins_ratio.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Probability of winning of one model 1 is the logit of the difference between EPP score of this model and opponent model 2.</p>
+    <p>Plot true ratio vs predicted probability</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_probability</span>(<span class='no'>epp_1</span>, <span class='no'>epp_2</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_wins_ratio</span>(<span class='no'>elo</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>epp_1</th>
-      <td><p>EPP score of model 1.</p></td>
-    </tr>
-    <tr>
-      <th>epp_2</th>
-      <td><p>EPP score of model 2.</p></td>
+      <th>elo</th>
+      <td><p>object of class elo_results.</p></td>
     </tr>
     </table>
 

@@ -27,5 +27,5 @@ devtools::install_github("ModelOriented/EloML")
 ```
 library(EloML)
 data(auc_scores)
-calculate_epp(auc_scores)
+calculate_elo(auc_scores)
 ```

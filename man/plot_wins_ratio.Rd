@@ -6,6 +6,9 @@
 \usage{
 plot_wins_ratio(elo)
 }
+\arguments{
+\item{elo}{object of class elo_results.}
+}
 \description{
 Plot true ratio vs predicted probability
 }
