@@ -4,9 +4,15 @@
 \alias{calculate_elo}
 \title{Calulate EPP score for all models}
 \usage{
-calculate_elo(results, decreasing_metric = TRUE,
-  compare_in_split = TRUE, keep_columns = FALSE, reference = NULL,
-  keep_data = TRUE, estimation = "glm")
+calculate_elo(
+  results,
+  decreasing_metric = TRUE,
+  compare_in_split = TRUE,
+  keep_columns = FALSE,
+  reference = NULL,
+  keep_data = TRUE,
+  estimation = "glm"
+)
 }
 \arguments{
 \item{results}{data frame with results for one dataset. Data should be in the following format.

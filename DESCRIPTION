@@ -17,6 +17,7 @@ Imports:
     dplyr,
     data.table,
     FactoMineR,
+    ggplot2,
     glmnet,
     Matrix
 RoxygenNote: 7.0.2

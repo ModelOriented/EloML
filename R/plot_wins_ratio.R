@@ -1,3 +1,5 @@
+#' @title Plot true ratio vs predicted probability
+#'
 #'
 #'
 #' @import ggplot2
