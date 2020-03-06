@@ -11,7 +11,7 @@ calculate_elo(
   keep_columns = FALSE,
   reference = NULL,
   keep_data = TRUE,
-  estimation = "glm"
+  estimation = "glmnet"
 )
 }
 \arguments{

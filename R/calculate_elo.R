@@ -201,7 +201,7 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @export
 #' @importFrom glmnet glmnet cv.glmnet bigGlm
 calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE,
-                          reference = NULL, keep_data = TRUE, estimation = "glm"){
+                          reference = NULL, keep_data = TRUE, estimation = "glmnet"){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
