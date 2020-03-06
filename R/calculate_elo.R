@@ -41,10 +41,13 @@ calculate_wins_one_model <- function(results,value_compare_with, model_base, spl
 
 
 #' @importFrom data.table setDT dcast rbindlist
+#' @importFrom utils setTxtProgressBar txtProgressBar
 #' @noRd
 calculate_wins_all_model <- function(results, list_models, compare_in_split, compare_function, aggregate = TRUE){
   loser <- winner <- loses <- wins <- players <- score <- `.` <- `:=` <- NULL
   results_list <- list()
+
+  pb <- txtProgressBar(min = 1, max = nrow(results), style = 3)
   for(i in 1:nrow(results)){
     row_sel <- i
     value_compare_with <- results[['score']][row_sel]
@@ -54,7 +57,9 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
     results_v2 <- calculate_wins_one_model(results = results, value_compare_with = value_compare_with, split_compare_with = split_compare_with, model_base = model_base, compare_function = compare_function, compare_in_split = compare_in_split, aggregate = aggregate)
     results_list[[length(results_list)+1]] <- results_v2
+    setTxtProgressBar(pb, i)
   }
+  close(pb)
   results_list_rbind <- rbindlist(results_list)
   if (aggregate){
 
@@ -166,7 +171,7 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
                       family = 'binomial',
                       standardize = FALSE,
                       intercept=TRUE,
-                      path = TRUE)
+                      trace.it = 1)
 
 }
 
