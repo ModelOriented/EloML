@@ -81,8 +81,9 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
 create_summary_model_glmnet <- function(model_epp, model_names){
   vector_coeff_model <- as.vector(coefficients(model_epp))
+  intercept <- vector_coeff_model[1]
   result <- data.frame(model = model_names,
-                       epp = vector_coeff_model[-1])
+                       epp = vector_coeff_model[-1] - intercept)
   result
 }
 
