@@ -157,7 +157,6 @@ prepare_model_matrix <- function(actual_score){
 fit_glm_model <- function(glm_model_matrix, actual_score){
 
   model_data <- cbind(actual_score[,c("wins","loses")], as.data.frame(glm_model_matrix))
-
   model_epp <- glm(cbind(wins, loses)~.,
                     data = model_data,
                     family = binomial)
@@ -212,12 +211,10 @@ calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = 
   models_results <- results[, 1:3]
   colnames(models_results) <- c("model", "split", "score")
   models_results <- models_results[order(models_results[["model"]], models_results[["split"]]),]
-  models_results[, "model"] <- factor(models_results[, "model"])
-
+  models_results[, "model"] <- factor(models_results[["model"]])
   actual_score <- calculate_actual_wins(results = models_results,
                                         decreasing_metric = decreasing_metric,
                                         compare_in_split=compare_in_split)
-
   glm_model_matrix <- prepare_model_matrix(actual_score)
 
   if(estimation == "glm"){
