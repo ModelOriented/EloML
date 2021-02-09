@@ -157,6 +157,9 @@ prepare_model_matrix <- function(actual_score){
 fit_glm_model <- function(glm_model_matrix, actual_score){
 
   model_data <- cbind(actual_score[,c("wins","loses")], as.data.frame(glm_model_matrix))
+  # browser()
+  model_data$wins <- floor(model_data$wins)
+  model_data$loses <- floor(model_data$loses)
   model_epp <- glm(cbind(wins, loses)~.,
                     data = model_data,
                     family = binomial)
