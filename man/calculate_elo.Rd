@@ -9,6 +9,7 @@ calculate_elo(
   decreasing_metric = TRUE,
   compare_in_split = TRUE,
   keep_columns = FALSE,
+  keep_model = FALSE,
   reference = NULL,
   keep_data = TRUE,
   estimation = "glmnet"
@@ -23,7 +24,9 @@ If FALSE used metric will be considered as increasing.}
 
 \item{compare_in_split}{Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.}
 
-\item{keep_columns}{Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.}
+\item{keep_columns}{Logical. If TRUE original data frame with new 'epp' column will be returned.}
+
+\item{keep_model}{Logical. If TRUE logistic regression model to compute EPP will be returned.}
 
 \item{reference}{Model that should be a reference level for EPP scores. It should be a name of one of the models from
 'results' data frame. If NULL, none of the models will be chosen.}

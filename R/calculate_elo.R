@@ -313,6 +313,7 @@ calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = 
   if(keep_model == TRUE){
     res[["model"]] <- model_epp
   }
+  res[["estimation"]] <- estimation
 
   res
 }

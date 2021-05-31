@@ -1,6 +1,6 @@
 Package: EloML
 Title: Elo rating system for machine learning models
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
      person("Alicja", "Gosiewska", email = "alicjagosiewska@gmail.com",role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6563-5742")),
     person("Katarzyna", "Woznica", role= "aut"),
@@ -18,7 +18,7 @@ Imports:
     ggplot2,
     glmnet,
     Matrix
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 URL: https://github.com/ModelOriented/EloML
 BugReports: https://github.com/ModelOriented/EloML/issues
 Suggests: 
