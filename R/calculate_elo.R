@@ -76,15 +76,75 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
 #' @title Extract coefficients from glmnet model
 #'
-#' @importFrom stats coefficients
+#' @importFrom stats coefficients deviance
 #' @noRd
 
-create_summary_model_glmnet <- function(model_epp, model_names){
-  vector_coeff_model <- as.vector(coefficients(model_epp))
-  intercept <- vector_coeff_model[1]
-  result <- data.frame(model = model_names,
-                       epp = vector_coeff_model[-1] - intercept)
-  result
+create_summary_model_glmnet <- function(model_epp, model_names,  reference){
+    browser()
+    residual_deviance <- list(value = deviance(model_epp),
+                            df = df.residual(model_epp))
+    vector_coeff_model <- as.vector(coefficients(model_epp))
+    intercept <- vector_coeff_model[1]
+    epp_summary <- data.frame(model = model_names,
+                         EPP = vector_coeff_model[-1] - intercept)
+    rownames(epp_summary) <- NULL
+    epp_summary[nrow(epp_summary),2] <- 0
+
+    results <- list(epp = epp_summary,
+                    residual_deviance = residual_deviance)
+
+    if(!is.null(reference)){
+      reference_level <- results[['epp']][which(results[['epp']][,"model"] == reference) ,"epp"][1]
+
+      results[['epp']][, 'EPP'] <- results[["epp"]][,'EPP'] - reference_level
+    }
+    results
+}
+
+#' @title Extract coefficients from glm model
+#'
+#' @importFrom stats coefficients deviance
+#' @noRd
+
+  create_summary_model_glm <- function(model_epp, model_names, reference){
+    residual_deviance <- list(value = deviance(model_epp),
+                              df = df.residual(model_epp))
+
+    reference_glmmodel <- model_names[length(model_names)]
+    epp_summary <- data.frame(coefficients(summary(model_epp)))
+    colnames(epp_summary) <- c('EPP', 'stdEPP', 'zStatistic', 'pvalue')
+    intercept <- epp_summary[1,1]
+    rownames(epp_summary)[1] <- reference_glmmodel
+    epp_summary[,'model'] <- rownames(epp_summary)
+    epp_summary[,1] <- epp_summary[,1]-intercept
+    epp_summary[,'conf.lower'] <- epp_summary[,1] - 1.96 * epp_summary[,2]
+    epp_summary[,'conf.upper'] <- epp_summary[,1] + 1.96 * epp_summary[,2]
+    epp_summary <- epp_summary[,c('model', 'EPP', 'stdEPP', 'conf.lower',   'conf.upper', 'pvalue')]
+    rownames(epp_summary) <- NULL
+
+    covariance_epp <- vcov(model_epp)
+    rownames(covariance_epp)[1] <- reference_glmmodel
+    colnames(covariance_epp)[1] <- reference_glmmodel
+    covariance_epp <- covariance_epp[-nrow(covariance_epp),]
+    covariance_epp <- covariance_epp[,-ncol(covariance_epp)]
+
+    results <- list(epp = epp_summary[,1:2],
+                    epp_summary = epp_summary,
+                    covariance_epp = covariance_epp,
+                    residual_deviance = residual_deviance)
+
+
+  if(!is.null(reference)){
+    reference_level <- results[['epp']][which(results[['epp']][,"model"] == reference) ,"epp"][1]
+
+    results[['epp']][, 'EPP'] <- results[["epp"]][,'EPP'] - reference_level
+      results[['epp_summary']][, 'EPP'] <- results[["epp_summary"]][,'EPP'] - reference_level
+      results[['epp_summary']][, 'conf.lower'] <- results[["epp_summary"]][,'conf.lower'] - reference_level
+      results[['epp_summary']][, 'conf.upper'] <- results[["epp_summary"]][,'conf.upper'] - reference_level
+
+  }
+
+  results
 }
 
 
@@ -186,7 +246,8 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @param decreasing_metric Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
 #' If FALSE used metric will be considered as increasing.
 #' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
-#' @param keep_columns Logical. If FALSE only EPP scores will be returned. If TRUE original data frame with new 'epp' column will be returned.
+#' @param keep_columns Logical. If TRUE original data frame with new 'epp' column will be returned.
+#' @param keep_model Logical. If TRUE logistic regression model to compute EPP will be returned.
 #' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
 #' 'results' data frame. If NULL, none of the models will be chosen.
 #' @param keep_data If all the meta-data shoul be keept in result.
@@ -208,7 +269,8 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #'
 #' @export
 #' @importFrom glmnet glmnet cv.glmnet bigGlm
-calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE, keep_columns = FALSE,
+calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE,
+                          keep_columns = FALSE, keep_model = FALSE,
                           reference = NULL, keep_data = TRUE, estimation = "glmnet"){
   # some cleaning to make unified naming
   models_results <- results[, 1:3]
@@ -222,36 +284,35 @@ calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = 
 
   if(estimation == "glm"){
     model_epp <- fit_glm_model(glm_model_matrix, actual_score)
-    res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix))
-    res[nrow(res),2] <- 0
-  } else if(estimation == "glmnet"){
+    epp_list <- create_summary_model_glm(model_epp, model_names = colnames(glm_model_matrix),  reference)
+    # epp_list[nrow(epp_list),2] <- 0
+  }else if(estimation == "glmnet"){
     glm_model_matrix_sparse <- Matrix(glm_model_matrix, sparse = TRUE)
+    glm_model_matrix <- Matrix(glm_model_matrix, sparse = TRUE)
     model_epp <- fit_glmnet_model(glm_model_matrix_sparse, actual_score)
-    res <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse))
+    epp_list <- create_summary_model_glmnet(model_epp, model_names = colnames(glm_model_matrix_sparse), reference)
+
   }
 
-  rownames(res) <- NULL
 
 
-  if(!is.null(reference)){
-    reference_level <- res[which(res[,"model"] == reference) ,"epp"][1]
-
-    res[,"epp"] <- res[,"epp"] - reference_level
-  }
   if(keep_columns == TRUE) {
-    tmp <- merge(res, models_results, by = "model")
-    res <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
-    colnames(res)[1:3] <- colnames(results)[1:3]
+    tmp <- merge(epp_list[['epp']], models_results, by = "model")
+    epp_list[['epp']] <- merge(tmp, results, by.x = c("model", "split", "score"), by.y = colnames(results)[1:3])
+    colnames(epp_list[['epp']])[1:3] <- colnames(results)[1:3]
   }
 
   if(keep_data == TRUE){
-    res <- list(elo = res,
-                actual_score = actual_score)
+    res <- c(epp_list,
+                list(actual_score = actual_score))
     class(res) <- c("elo_results", "list")
   } else {
-    res <- list(elo = res)
+    res <- epp_list
     class(res) <- c("elo_results", "list")
   }
-  res[["model"]] <- model_epp
+  if(keep_model == TRUE){
+    res[["model"]] <- model_epp
+  }
+
   res
 }
