@@ -80,13 +80,13 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 #' @noRd
 
 create_summary_model_glmnet <- function(model_epp, model_names,  reference){
-    browser()
+
     residual_deviance <- list(value = deviance(model_epp),
                             df = df.residual(model_epp))
     vector_coeff_model <- as.vector(coefficients(model_epp))
     intercept <- vector_coeff_model[1]
     epp_summary <- data.frame(model = model_names,
-                         EPP = vector_coeff_model[-1] - intercept)
+                         epp = vector_coeff_model[-1] - intercept)
     rownames(epp_summary) <- NULL
     epp_summary[nrow(epp_summary),2] <- 0
 
@@ -96,7 +96,7 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
     if(!is.null(reference)){
       reference_level <- results[['epp']][which(results[['epp']][,"model"] == reference) ,"epp"][1]
 
-      results[['epp']][, 'EPP'] <- results[["epp"]][,'EPP'] - reference_level
+      results[['epp']][, 'epp'] <- results[["epp"]][,'epp'] - reference_level
     }
     results
 }
@@ -112,14 +112,14 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
 
     reference_glmmodel <- model_names[length(model_names)]
     epp_summary <- data.frame(coefficients(summary(model_epp)))
-    colnames(epp_summary) <- c('EPP', 'stdEPP', 'zStatistic', 'pvalue')
+    colnames(epp_summary) <- c('epp', 'std_epp', 'z_statistic', 'p_value')
     intercept <- epp_summary[1,1]
     rownames(epp_summary)[1] <- reference_glmmodel
     epp_summary[,'model'] <- rownames(epp_summary)
     epp_summary[,1] <- epp_summary[,1]-intercept
-    epp_summary[,'conf.lower'] <- epp_summary[,1] - 1.96 * epp_summary[,2]
-    epp_summary[,'conf.upper'] <- epp_summary[,1] + 1.96 * epp_summary[,2]
-    epp_summary <- epp_summary[,c('model', 'EPP', 'stdEPP', 'conf.lower',   'conf.upper', 'pvalue')]
+    epp_summary[,'conf_lower'] <- epp_summary[,1] - 1.96 * epp_summary[,2]
+    epp_summary[,'conf_upper'] <- epp_summary[,1] + 1.96 * epp_summary[,2]
+    epp_summary <- epp_summary[,c('model', 'epp', 'std_epp', 'conf_lower',   'conf_upper', 'p_value')]
     rownames(epp_summary) <- NULL
 
     covariance_epp <- vcov(model_epp)
@@ -137,8 +137,8 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
   if(!is.null(reference)){
     reference_level <- results[['epp']][which(results[['epp']][,"model"] == reference) ,"epp"][1]
 
-    results[['epp']][, 'EPP'] <- results[["epp"]][,'EPP'] - reference_level
-      results[['epp_summary']][, 'EPP'] <- results[["epp_summary"]][,'EPP'] - reference_level
+    results[['epp']][, 'epp'] <- results[["epp"]][,'epp'] - reference_level
+      results[['epp_summary']][, 'epp'] <- results[["epp_summary"]][,'epp'] - reference_level
       results[['epp_summary']][, 'conf.lower'] <- results[["epp_summary"]][,'conf.lower'] - reference_level
       results[['epp_summary']][, 'conf.upper'] <- results[["epp_summary"]][,'conf.upper'] - reference_level
 
@@ -217,7 +217,7 @@ prepare_model_matrix <- function(actual_score){
 fit_glm_model <- function(glm_model_matrix, actual_score){
 
   model_data <- cbind(actual_score[,c("wins","loses")], as.data.frame(glm_model_matrix))
-  # browser()
+
   model_data$wins <- floor(model_data$wins)
   model_data$loses <- floor(model_data$loses)
   model_epp <- glm(cbind(wins, loses)~.,
