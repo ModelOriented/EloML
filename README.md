@@ -16,7 +16,7 @@ Find more in the [EPP: interpretable score of model predictive power](https://ar
 
 ## Installation
 
-```{r}
+```r
 # Install the the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("ModelOriented/EloML")
@@ -24,7 +24,7 @@ devtools::install_github("ModelOriented/EloML")
 
 ## Usage
 
-```
+```r
 library(EloML)
 data(auc_scores)
 calculate_elo(auc_scores)
