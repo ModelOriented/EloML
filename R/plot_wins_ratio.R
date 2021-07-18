@@ -1,6 +1,6 @@
 #' @title Plot true ratio vs predicted probability
 #'
-#' @param epp object of class epp_results.
+#' @param epp object of class elo_results.
 #'
 #' @import ggplot2
 #' @export
