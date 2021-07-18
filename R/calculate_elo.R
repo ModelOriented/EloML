@@ -305,10 +305,10 @@ calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = 
   if(keep_data == TRUE){
     res <- c(epp_list,
                 list(actual_score = actual_score))
-    class(res) <- c("elo_results", "list")
+    class(res) <- c("epp_results", "list")
   } else {
     res <- epp_list
-    class(res) <- c("elo_results", "list")
+    class(res) <- c("epp_results", "list")
   }
   if(keep_model == TRUE){
     res[["model"]] <- model_epp

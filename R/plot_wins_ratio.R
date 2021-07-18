@@ -1,6 +1,6 @@
 #' @title Plot true ratio vs predicted probability
 #'
-#' @param elo object of class elo_results.
+#' @param epp object of class epp_results.
 #'
 #' @import ggplot2
 #' @export
@@ -8,7 +8,7 @@ plot_wins_ratio <- function(elo){
   ratio <- pred_ratio <- NULL
   if(!("actual_score" %in% names(elo))) stop("Use `keep_data == TRUE` parameter in function `calculate_epp()`")
   actual_score <- elo$actual_score
-  elo_score <- elo$elo
+  elo_score <- elo$epp
 
   actual_score[["ratio"]] <- actual_score[["wins"]] / actual_score[["match"]]
   actual_score <- merge(actual_score, elo_score, by.x ="winner", by.y = "model")
