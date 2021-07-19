@@ -2,12 +2,12 @@
 % Please edit documentation in R/wald_test.R
 \name{test_players_diff}
 \alias{test_players_diff}
-\title{Test the differences between two Elo Scores}
+\title{Test the differences between two EPP Scores}
 \usage{
-test_players_diff(elo, player1, player2)
+test_players_diff(epp, player1, player2)
 }
 \arguments{
-\item{elo}{object of class elo_results.}
+\item{epp}{object of class epp_results.}
 
 \item{player1}{Name of the first player to test}
 
@@ -18,7 +18,7 @@ The test is based on the Wald test.
 }
 \examples{
 data(auc_scores)
-elo <- calculate_elo(auc_scores[1:400,], keep_model = TRUE, estimation = "glm")
-test_players_diff(elo, "gbm_10", "gbm_2")
+epp <- calculate_epp(auc_scores[1:400,], keep_model = TRUE, estimation = "glm")
+test_players_diff(epp, "gbm_10", "gbm_2")
 
 }

@@ -6,7 +6,7 @@
 #' @param player1 Name of the first player to test
 #' @param player2 Name of the second player to test
 #'
-#' @ImportFrom stats pchisq
+#' @importFrom stats pchisq
 #' @examples
 #' data(auc_scores)
 #' epp <- calculate_epp(auc_scores[1:400,], keep_model = TRUE, estimation = "glm")

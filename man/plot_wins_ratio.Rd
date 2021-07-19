@@ -4,10 +4,10 @@
 \alias{plot_wins_ratio}
 \title{Plot true ratio vs predicted probability}
 \usage{
-plot_wins_ratio(elo)
+plot_wins_ratio(epp)
 }
 \arguments{
-\item{elo}{object of class elo_results.}
+\item{epp}{object of class epp_results.}
 }
 \description{
 Plot true ratio vs predicted probability
