@@ -251,7 +251,7 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
 #' 'results' data frame. If NULL, none of the models will be chosen.
 #' @param keep_data If all the meta-data shoul be keept in result.
-#' @param estimation Method of estimating elo coefficients, 'glm' or 'glmnet'.
+#' @param estimation Method of estimating EPP coefficients, 'glm' or 'glmnet'.
 #'
 #' @details Format of the data frame passed via results parameter.
 #' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
@@ -265,11 +265,11 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @examples
 #' library(EloML)
 #' data(auc_scores)
-#' calculate_elo(auc_scores[1:400,])
+#' calculate_epp(auc_scores[1:400,])
 #'
 #' @export
 #' @importFrom glmnet glmnet cv.glmnet bigGlm
-calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE,
+calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_split = TRUE,
                           keep_columns = FALSE, keep_model = FALSE,
                           reference = NULL, keep_data = TRUE, estimation = "glmnet"){
   # some cleaning to make unified naming
@@ -305,10 +305,10 @@ calculate_elo <- function(results, decreasing_metric = TRUE, compare_in_split = 
   if(keep_data == TRUE){
     res <- c(epp_list,
                 list(actual_score = actual_score))
-    class(res) <- c("elo_results", "list")
+    class(res) <- c("epp_results", "list")
   } else {
     res <- epp_list
-    class(res) <- c("elo_results", "list")
+    class(res) <- c("epp_results", "list")
   }
   if(keep_model == TRUE){
     res[["model"]] <- model_epp
