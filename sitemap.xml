@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/auc_scores.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculate_actual_wins.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculate_epp.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculate_probability.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/plot_wins_ratio.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.epp_test.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_players_diff.html</loc>
+  </url>
+</urlset>
