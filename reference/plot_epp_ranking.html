@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • EloML</title>
+<title>Plot EPP ranking — plot_epp_ranking • EloML</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,7 +52,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Plot EPP ranking — plot_epp_ranking" />
+<meta property="og:description" content="Plot EPP ranking" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -80,7 +81,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -123,84 +124,38 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Plot EPP ranking</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/plot_epp_ranking.R'><code>R/plot_epp_ranking.R</code></a></small>
+    <div class="hidden name"><code>plot_epp_ranking.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Plot EPP ranking</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_epp_ranking</span><span class='op'>(</span><span class='va'>epp</span>, aggregation <span class='op'>=</span> <span class='va'>mean</span>, confidence_intervals <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="auc_scores.html">auc_scores</a></code> </p>
-        </td>
-        <td><p>AUC scores of models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_actual_wins.html">calculate_actual_wins()</a></code> </p>
-        </td>
-        <td><p>Calculate actual results for every pair of models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_epp.html">calculate_epp()</a></code> </p>
-        </td>
-        <td><p>Calculate EPP score for all models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calculate_probability.html">calculate_probability()</a></code> </p>
-        </td>
-        <td><p>Calculate probability of winning</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_epp_ranking.html">plot_epp_ranking()</a></code> </p>
-        </td>
-        <td><p>Plot EPP ranking</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_wins_ratio.html">plot_wins_ratio()</a></code> </p>
-        </td>
-        <td><p>Plot true ratio vs predicted probability</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.epp_test.html">print(<i>&lt;epp_test&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Printing Summary of the EPP Test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_players_diff.html">test_players_diff()</a></code> </p>
-        </td>
-        <td><p>Test the differences between two EPP Scores</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>epp</th>
+      <td><p>object of class epp_results.</p></td>
+    </tr>
+    <tr>
+      <th>aggregation</th>
+      <td><p>aggregation function.</p></td>
+    </tr>
+    <tr>
+      <th>confidence_intervals</th>
+      <td><p>whether confidence intervals should be plotted. Only for "glmnet" estimation.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
