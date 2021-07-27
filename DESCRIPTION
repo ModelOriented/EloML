@@ -7,8 +7,7 @@ Authors@R: c(
     person("Przemyslaw", "Biecek", role =  "aut",
       comment = c(ORCID = "0000-0001-8423-1823"))
   )
-Description: Provides an easy to use unified interface for calculating Elo scores of machine learning models.  
-  Elo Predictive Power (EPP) score helps to assess model performance based Elo ranking system. 
+Description: Provides an easy to use unified interface for calculating EPP scores of machine learning models. Elo Predictive Power (EPP) scores assess model performance based on Elo ranking system. For more information see: Gosiewska et al. (2020) <arXiv:2006.02293>.
 Depends: R (>= 3.5.0)
 License: GPL
 Encoding: UTF-8

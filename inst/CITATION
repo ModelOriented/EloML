@@ -1,0 +1,9 @@
+bibentry(bibtype = "Article",
+  title = "Interpretable Meta-Measure for Model Performance",
+  journal = "CoRR",
+  year = "2020",
+  url = "https://arxiv.org/abs/2006.02293",
+  author = "Alicja Gosiewska and Ktarzyna Woznica and Przemyslaw Biecek",
+  archivePrefix = "arXiv",
+  eprint = "2006.02293"
+)
