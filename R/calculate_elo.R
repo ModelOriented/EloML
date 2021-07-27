@@ -148,13 +148,13 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
 }
 
 
-#' Calulate actual results for every pair of models
+#' Calculate actual results for every pair of models
 #'
 #'
 #' @param results raw results
 #' @param decreasing_metric if used metric is decreasing
-#' @param compare_in_split if compare models and parameters only in fhe same fold
-#' @param aggregate if results should be aggregated for every pair of models and hyperparameters. Otherwise output will have many rows with binary response (acccording to amount of splitsin crossvalidation) for every pair of models
+#' @param compare_in_split if compare models and parameters only in the same fold
+#' @param aggregate if results should be aggregated for every pair of models and hyperparameters. Otherwise output will have many rows with binary response (according to amount of splits in cross-validation) for every pair of models
 #' @export
 
 
@@ -239,7 +239,7 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 }
 
 
-#' @title Calulate EPP score for all models
+#' @title Calculate EPP score for all models
 #'
 #' @param results data frame with results for one dataset. Data should be in the following format.
 #' First 3 columns should correspond to: model, split, score. See more in 'details' section.
@@ -250,11 +250,11 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 #' @param keep_model Logical. If TRUE logistic regression model to compute EPP will be returned.
 #' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
 #' 'results' data frame. If NULL, none of the models will be chosen.
-#' @param keep_data If all the meta-data shoul be keept in result.
+#' @param keep_data If all the meta-data should be kept in result.
 #' @param estimation Method of estimating EPP coefficients, 'glm' or 'glmnet'.
 #'
 #' @details Format of the data frame passed via results parameter.
-#' First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
+#' First column should correspond to a model. Different settings of hyperparameters of the same model should have different values in this column.
 #' Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
 #' with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
 #' Indexes of splits should be in this column. And should match across models.

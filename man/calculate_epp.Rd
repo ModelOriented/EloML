@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_elo.R
 \name{calculate_epp}
 \alias{calculate_epp}
-\title{Calulate EPP score for all models}
+\title{Calculate EPP score for all models}
 \usage{
 calculate_epp(
   results,
@@ -31,16 +31,16 @@ If FALSE used metric will be considered as increasing.}
 \item{reference}{Model that should be a reference level for EPP scores. It should be a name of one of the models from
 'results' data frame. If NULL, none of the models will be chosen.}
 
-\item{keep_data}{If all the meta-data shoul be keept in result.}
+\item{keep_data}{If all the meta-data should be kept in result.}
 
 \item{estimation}{Method of estimating EPP coefficients, 'glm' or 'glmnet'.}
 }
 \description{
-Calulate EPP score for all models
+Calculate EPP score for all models
 }
 \details{
 Format of the data frame passed via results parameter.
-First column should correspond to a model. Dofferent settings of hyperparameters of the same model should have different values in this column.
+First column should correspond to a model. Different settings of hyperparameters of the same model should have different values in this column.
 Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
 with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
 Indexes of splits should be in this column. And should match across models.
