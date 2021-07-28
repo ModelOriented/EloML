@@ -4,10 +4,14 @@
 \alias{plot_wins_ratio}
 \title{Plot True Ratio vs EPP Probability}
 \usage{
-plot_wins_ratio(epp)
+plot_wins_ratio(epp, random_sample = NULL, random_state = NULL)
 }
 \arguments{
 \item{epp}{epp_results. The result of a function \code{\link{calculate_epp}}.}
+
+\item{random_sample}{Numeric. If not NULL \verb{random sample} fraction of Players is sampled from the set of all Players.}
+
+\item{random_state}{Numeric. Seed for sampling Players. Used only when \code{random_sample} is not NULL.}
 }
 \value{
 gg
