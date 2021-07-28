@@ -20,7 +20,7 @@
 test_players_diff <- function(epp, player1, player2){
   if(epp$estimation != "glm") stop("Test requires estimated covariance matrix. Use `estimation='glm'` in function `caluclate_epp()`.")
   coefs <- epp$epp_summary$epp
-  players <- epp$epp_summary$model
+  players <- epp$epp_summary$player
   covar <- epp$covariance_epp
   n <- length(coefs)
 
@@ -43,14 +43,14 @@ test_players_diff <- function(epp, player1, player2){
 
 #' @title Printing Summary of the EPP Test
 #'
-#' @param x epp_results. The result of a function \code{\link{calculate_epp}}.
+#' @param x epp_test. The result of a function \code{\link{test_players_diff}}.
 #' @param ... other parameters
 #'
 #' @return No return value, prints the structure of the object
 #'
 #' @export
 print.epp_test <- function(x, ...) {
-  cat("Wald-based test for the difference between ", x$player1, " and ", x$player1, ".\n", sep = "")
+  cat("Wald-based test for the difference between ", x$player1, " and ", x$player2, ".\n", sep = "")
   cat("Test statistic: ", x$statistic, "\n")
   cat("p-value: ", x$pval, "\n")
 }

@@ -7,7 +7,7 @@
 \method{print}{epp_test}(x, ...)
 }
 \arguments{
-\item{x}{epp_results. The result of a function \code{\link{calculate_epp}}.}
+\item{x}{epp_test. The result of a function \code{\link{test_players_diff}}.}
 
 \item{...}{other parameters}
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/calculate_elo.R
 \name{calculate_actual_wins}
 \alias{calculate_actual_wins}
-\title{Actual Results for Every Pair of Models}
+\title{Actual Results for Every Pair of Players}
 \usage{
 calculate_actual_wins(
   results,
   decreasing_metric = TRUE,
-  compare_in_split,
+  compare_in_round,
   aggregate = TRUE
 )
 }
@@ -16,7 +16,7 @@ calculate_actual_wins(
 
 \item{decreasing_metric}{Logical. If Score is decreasing metrics.}
 
-\item{compare_in_split}{Logical. If Players should be compared only in the same Round. Setting to FALSE increase the number of Matches, but Score values of Players will be compared between different Rounds.}
+\item{compare_in_round}{Logical. If Players should be compared only in the same Round. Setting to FALSE increase the number of Matches, but Score values of Players will be compared between different Rounds.}
 
 \item{aggregate}{Logical. If results should be aggregated for every pair of Players. Otherwise, output will have many rows with binary response (according to amount of Rounds in the Tournament) for every pair of Players.}
 }

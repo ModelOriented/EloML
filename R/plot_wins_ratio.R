@@ -41,15 +41,15 @@ plot_wins_ratio <- function(epp, random_sample = NULL, random_state = NULL){
       set.seed(random_state)
     }
 
-    sample_player <- sample(epp_score$model, size = floor(random_sample * length(epp_score$model)))
+    sample_player <- sample(epp_score$player, size = floor(random_sample * length(epp_score$player)))
     actual_score <- actual_score[actual_score$winner %in% sample_player & actual_score$loser %in% sample_player,]
-    epp_score <- epp_score[epp_score$model %in% sample_player, ]
+    epp_score <- epp_score[epp_score$player %in% sample_player, ]
   }
 
   actual_score[["ratio"]] <- actual_score[["wins"]] / actual_score[["match"]]
-  actual_score <- merge(actual_score, epp_score, by.x ="winner", by.y = "model")
+  actual_score <- merge(actual_score, epp_score, by.x ="winner", by.y = "player")
   names(actual_score)[names(actual_score)=='epp'] <- "epp_winner"
-  actual_score <- merge(actual_score, epp_score, by.x ="loser", by.y = "model")
+  actual_score <- merge(actual_score, epp_score, by.x ="loser", by.y = "player")
   names(actual_score)[names(actual_score)=='epp'] <- "epp_loser"
 
   actual_score[['pred_ratio']] <- exp(actual_score[["epp_winner"]] - actual_score[['epp_loser']])/(1+exp(actual_score[["epp_winner"]] - actual_score[['epp_loser']]))
