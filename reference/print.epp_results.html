@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Actual Results for Every Pair of Players — calculate_actual_wins • EloML</title>
+<title>Printing EPP results — print.epp_results • EloML</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Actual Results for Every Pair of Players — calculate_actual_wins" />
-<meta property="og:description" content="Calculate number of wins and loses for every pair of Players." />
+<meta property="og:title" content="Printing EPP results — print.epp_results" />
+<meta property="og:description" content="Printing EPP results" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -126,49 +126,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Actual Results for Every Pair of Players</h1>
+    <h1>Printing EPP results</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/calculate_elo.R'><code>R/calculate_elo.R</code></a></small>
-    <div class="hidden name"><code>calculate_actual_wins.Rd</code></div>
+    <div class="hidden name"><code>print.epp_results.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate number of wins and loses for every pair of Players.</p>
+    <p>Printing EPP results</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>calculate_actual_wins</span><span class='op'>(</span>
-  <span class='va'>results</span>,
-  decreasing_metric <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>compare_in_round</span>,
-  aggregate <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for epp_results</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>results</th>
-      <td><p>raw results</p></td>
+      <th>x</th>
+      <td><p>epp_results. The result of a function <code><a href='calculate_epp.html'>calculate_epp</a></code>.</p></td>
     </tr>
     <tr>
-      <th>decreasing_metric</th>
-      <td><p>Logical. If Score is decreasing metrics.</p></td>
-    </tr>
-    <tr>
-      <th>compare_in_round</th>
-      <td><p>Logical. If Players should be compared only in the same Round. Setting to FALSE increase the number of Matches, but Score values of Players will be compared between different Rounds.</p></td>
-    </tr>
-    <tr>
-      <th>aggregate</th>
-      <td><p>Logical. If results should be aggregated for every pair of Players. Otherwise, output will have many rows with binary response (according to amount of Rounds in the Tournament) for every pair of Players.</p></td>
+      <th>...</th>
+      <td><p>other parameters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Naming convention, such as Player, Rounds, etc. comes from <a href='https://arxiv.org/abs/2006.02293'>Gosiewska et al. (2020)</a>.</p>
+    <p>No return value, prints the structure of the object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
