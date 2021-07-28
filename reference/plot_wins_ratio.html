@@ -137,7 +137,7 @@ estimated from EPP values." />
 estimated from EPP values.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_wins_ratio</span><span class='op'>(</span><span class='va'>epp</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_wins_ratio</span><span class='op'>(</span><span class='va'>epp</span>, random_sample <span class='op'>=</span> <span class='cn'>NULL</span>, random_state <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +145,14 @@ estimated from EPP values.</p>
     <tr>
       <th>epp</th>
       <td><p>epp_results. The result of a function <code><a href='calculate_epp.html'>calculate_epp</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>random_sample</th>
+      <td><p>Numeric. If not NULL <code>random sample</code> fraction of Players is sampled from the set of all Players.</p></td>
+    </tr>
+    <tr>
+      <th>random_state</th>
+      <td><p>Numeric. Seed for sampling Players. Used only when <code>random_sample</code> is not NULL.</p></td>
     </tr>
     </table>
 
