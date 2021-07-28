@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_epp_ranking.R
 \name{plot_epp_ranking}
 \alias{plot_epp_ranking}
-\title{Plot EPP ranking}
+\title{Plot EPP Meta-Score Ranking}
 \usage{
 plot_epp_ranking(
   epp,
@@ -12,16 +12,22 @@ plot_epp_ranking(
 )
 }
 \arguments{
-\item{epp}{object of class epp_results.}
+\item{epp}{epp_results. The result of a function \code{\link{calculate_epp}}.}
 
-\item{aggregation}{aggregation function.}
+\item{aggregation}{Function. Aggregation function, for example mean or median.}
 
-\item{confidence_intervals}{whether confidence intervals should be plotted. Only for "glmnet" estimation.}
+\item{confidence_intervals}{Logical. If confidence intervals should be plotted. Only for 'glm' estimation.}
 
-\item{show_player_names}{whether player names should be shown}
+\item{show_player_names}{Logical. If Players' names should be shown.}
+}
+\value{
+gg
 }
 \description{
-Plot EPP ranking
+EPP Meta-Score values vs Aggreated values of Scores.
+}
+\details{
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
 }
 \examples{
 library(EloML)

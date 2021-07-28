@@ -1,11 +1,18 @@
-#' @title Plot EPP ranking
+#' @title Plot EPP Meta-Score Ranking
 #'
-#' @param epp object of class epp_results.
-#' @param aggregation aggregation function.
-#' @param confidence_intervals whether confidence intervals should be plotted. Only for "glmnet" estimation.
-#' @param show_player_names whether player names should be shown
+#' @description EPP Meta-Score values vs Aggreated values of Scores.
+#'
+#' @param epp epp_results. The result of a function \code{\link{calculate_epp}}.
+#' @param aggregation Function. Aggregation function, for example mean or median.
+#' @param confidence_intervals Logical. If confidence intervals should be plotted. Only for 'glm' estimation.
+#' @param show_player_names Logical. If Players' names should be shown.
+#'
+#' @return gg
+#'
 #' @import ggplot2
 #' @importFrom ggrepel geom_text_repel
+#'
+#' @details Naming convention, such as Player, Rounds, etc. comes from [Gosiewska et al. (2020)](https://arxiv.org/abs/2006.02293).
 #'
 #' @examples
 #' library(EloML)

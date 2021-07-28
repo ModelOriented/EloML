@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_elo.R
 \name{calculate_actual_wins}
 \alias{calculate_actual_wins}
-\title{Calculate actual results for every pair of models}
+\title{Actual Results for Every Pair of Models}
 \usage{
 calculate_actual_wins(
   results,
@@ -14,12 +14,18 @@ calculate_actual_wins(
 \arguments{
 \item{results}{raw results}
 
-\item{decreasing_metric}{if used metric is decreasing}
+\item{decreasing_metric}{Logical. If Score is decreasing metrics.}
 
-\item{compare_in_split}{if compare models and parameters only in the same fold}
+\item{compare_in_split}{Logical. If Players should be compared only in the same Round. Setting to FALSE increase the number of Matches, but Score values of Players will be compared between different Rounds.}
 
-\item{aggregate}{if results should be aggregated for every pair of models and hyperparameters. Otherwise output will have many rows with binary response (according to amount of splits in cross-validation) for every pair of models}
+\item{aggregate}{Logical. If results should be aggregated for every pair of Players. Otherwise, output will have many rows with binary response (according to amount of Rounds in the Tournament) for every pair of Players.}
+}
+\value{
+data.frame
 }
 \description{
-Calculate actual results for every pair of models
+Calculate number of wins and loses for every pair of Players.
+}
+\details{
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
 }

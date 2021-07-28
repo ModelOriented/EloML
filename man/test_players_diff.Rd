@@ -2,19 +2,25 @@
 % Please edit documentation in R/wald_test.R
 \name{test_players_diff}
 \alias{test_players_diff}
-\title{Test the differences between two EPP Scores}
+\title{Test for the Differences Between Two EPP Meta-Scores}
 \usage{
 test_players_diff(epp, player1, player2)
 }
 \arguments{
-\item{epp}{object of class epp_results.}
+\item{epp}{epp_results. The result of a function \code{\link{calculate_epp}}.}
 
-\item{player1}{Name of the first player to test}
+\item{player1}{Character. Name of the first Player to test.}
 
-\item{player2}{Name of the second player to test}
+\item{player2}{Character. Name of the second Player to test.}
+}
+\value{
+epp_test
 }
 \description{
-The test is based on the Wald test.
+The test is based on the Wald test for logistic regression used to estimate EPP.
+}
+\details{
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
 }
 \examples{
 data(auc_scores)

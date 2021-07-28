@@ -2,13 +2,32 @@
 % Please edit documentation in R/plot_wins_ratio.R
 \name{plot_wins_ratio}
 \alias{plot_wins_ratio}
-\title{Plot true ratio vs predicted probability}
+\title{Plot True Ratio vs EPP Probability}
 \usage{
 plot_wins_ratio(epp)
 }
 \arguments{
-\item{epp}{object of class epp_results.}
+\item{epp}{epp_results. The result of a function \code{\link{calculate_epp}}.}
+}
+\value{
+gg
 }
 \description{
-Plot true ratio vs predicted probability
+Plot of an empirical probability of winning versus probability of winning
+estimated from EPP values.
+}
+\details{
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
+}
+\examples{
+library(EloML)
+data(auc_scores)
+epp <- calculate_epp(
+  auc_scores[1:100, ],
+  keep_columns=TRUE,
+  keep_model = TRUE,
+  estimation ="glm"
+  )
+plot_wins_ratio(epp)
+
 }

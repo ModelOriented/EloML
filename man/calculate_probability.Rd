@@ -2,15 +2,27 @@
 % Please edit documentation in R/transform_elo.R
 \name{calculate_probability}
 \alias{calculate_probability}
-\title{Calculate probability of winning}
+\title{Calculate the Probability of Winning}
 \usage{
 calculate_probability(epp_1, epp_2)
 }
 \arguments{
-\item{epp_1}{EPP score of model 1.}
+\item{epp_1}{Numeric. EPP score of Player.}
 
-\item{epp_2}{EPP score of model 2.}
+\item{epp_2}{Numeric. EPP score of Opponent.}
+}
+\value{
+numeric
 }
 \description{
-Probability of winning of one model 1 is the logit of the difference between EPP score of this model and opponent model 2.
+Probability of winning of a Player is the logit of the difference between EPP score
+of this Player and an Opponent.
+}
+\details{
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
+}
+\examples{
+library(EloML)
+calculate_probability(10, 8)
+
 }

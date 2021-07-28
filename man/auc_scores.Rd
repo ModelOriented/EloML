@@ -5,15 +5,15 @@
 \alias{auc_scores}
 \title{AUC scores of models}
 \format{
-a data frame with 1600 rows and 3 columns
+a data frame with 1600 rows and 3 columns.
 }
 \usage{
 data(auc_scores)
 }
 \description{
-Datasets \code{auc_scores} contains results of classification models,
-}
-\details{
+Dataset \code{auc_scores} contains a subset of binary classification models
+results from \href{https://arxiv.org/abs/2008.13162}{Kretowicz and Biecek (2020)}.
+
 \itemize{
 \item model - name of model followed by a number indicating setting of hyperparameters
 \item split - indicator of split

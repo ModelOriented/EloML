@@ -25,3 +25,4 @@ Suggests:
     spelling,
     testthat
 Language: en-US
+Roxygen: list(markdown = TRUE)

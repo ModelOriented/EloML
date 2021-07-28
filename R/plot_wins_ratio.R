@@ -1,6 +1,24 @@
-#' @title Plot true ratio vs predicted probability
+#' @title Plot True Ratio vs EPP Probability
 #'
-#' @param epp object of class epp_results.
+#' @description Plot of an empirical probability of winning versus probability of winning
+#' estimated from EPP values.
+#'
+#' @param epp epp_results. The result of a function \code{\link{calculate_epp}}.
+#'
+#' @return gg
+#'
+#' @details Naming convention, such as Player, Rounds, etc. comes from [Gosiewska et al. (2020)](https://arxiv.org/abs/2006.02293).
+#'
+#' @examples
+#' library(EloML)
+#' data(auc_scores)
+#' epp <- calculate_epp(
+#'   auc_scores[1:100, ],
+#'   keep_columns=TRUE,
+#'   keep_model = TRUE,
+#'   estimation ="glm"
+#'   )
+#' plot_wins_ratio(epp)
 #'
 #' @import ggplot2
 #' @export

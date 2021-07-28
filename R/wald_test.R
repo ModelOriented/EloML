@@ -1,10 +1,14 @@
-#' @title Test the differences between two EPP Scores
+#' @title Test for the Differences Between Two EPP Meta-Scores
 #'
-#' @description The test is based on the Wald test.
+#' @description The test is based on the Wald test for logistic regression used to estimate EPP.
 #'
-#' @param epp object of class epp_results.
-#' @param player1 Name of the first player to test
-#' @param player2 Name of the second player to test
+#' @param epp epp_results. The result of a function \code{\link{calculate_epp}}.
+#' @param player1 Character. Name of the first Player to test.
+#' @param player2 Character. Name of the second Player to test.
+#'
+#' @details Naming convention, such as Player, Rounds, etc. comes from [Gosiewska et al. (2020)](https://arxiv.org/abs/2006.02293).
+#'
+#' @return epp_test
 #'
 #' @importFrom stats pchisq
 #' @examples
@@ -39,9 +43,8 @@ test_players_diff <- function(epp, player1, player2){
 
 #' @title Printing Summary of the EPP Test
 #'
-#' @param x epp_test object containing information about the test results.
+#' @param x epp_results. The result of a function \code{\link{calculate_epp}}.
 #' @param ... other parameters
-#' is not specified then transformations for all variables are printed
 #'
 #' @return No return value, prints the structure of the object
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_elo.R
 \name{calculate_epp}
 \alias{calculate_epp}
-\title{Calculate EPP score for all models}
+\title{Calculate EPP Meta-Scores for All Players}
 \usage{
 calculate_epp(
   results,
@@ -16,37 +16,42 @@ calculate_epp(
 )
 }
 \arguments{
-\item{results}{data frame with results for one dataset. Data should be in the following format.
-First 3 columns should correspond to: model, split, score. See more in 'details' section.}
+\item{results}{Data frame. Results for one Round Data should be in the following format.
+First 3 columns should correspond to: Player, Round, Score. See more in 'details' section.}
 
-\item{decreasing_metric}{Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
-If FALSE used metric will be considered as increasing.}
+\item{decreasing_metric}{Logical. If TRUE used Score is considered as decreasing, that means a Player with higher Score value is considered as winner.
+If FALSE used Score will be considered as increasing.}
 
-\item{compare_in_split}{Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.}
+\item{compare_in_split}{Logical. If TRUE compares Players only in the same fold. If FALSE compares Players across folds.}
 
 \item{keep_columns}{Logical. If TRUE original data frame with new 'epp' column will be returned.}
 
 \item{keep_model}{Logical. If TRUE logistic regression model to compute EPP will be returned.}
 
-\item{reference}{Model that should be a reference level for EPP scores. It should be a name of one of the models from
-'results' data frame. If NULL, none of the models will be chosen.}
+\item{reference}{Character. Name of the Player that should be a reference level for EPP Meta-scores. It should be a name of one of the Players from
+'results' data frame. If NULL, none of the Players will be chosen.}
 
 \item{keep_data}{If all the meta-data should be kept in result.}
 
 \item{estimation}{Method of estimating EPP coefficients, 'glm' or 'glmnet'.}
 }
+\value{
+epp_results
+}
 \description{
-Calculate EPP score for all models
+Calculate EPP Meta-Scores for All Players
 }
 \details{
 Format of the data frame passed via results parameter.
-First column should correspond to a model. Different settings of hyperparameters of the same model should have different values in this column.
-Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
-with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
-Indexes of splits should be in this column. And should match across models.
-Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
+First column should correspond to a Player.
+Second column corresponds to indexes of Rounds As EPP is based on Elo rating system, power of Player is assessed by comparing its results
+with other Players on multiple Rounds. Therefore, each Player should be evaluated on multiple Rounds.
+Indexes of ROunds should be in this column. And should match across Players.
+Third column contains Score used to evaluate models. It can be both decreasing or increasing metric.
 just remember to set the \code{decreasing_metric} parameter accordingly.
 The following columns can be of any kind.
+
+Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
 }
 \examples{
 library(EloML)

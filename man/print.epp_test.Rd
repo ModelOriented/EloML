@@ -7,10 +7,9 @@
 \method{print}{epp_test}(x, ...)
 }
 \arguments{
-\item{x}{epp_test object containing information about the test results.}
+\item{x}{epp_results. The result of a function \code{\link{calculate_epp}}.}
 
-\item{...}{other parameters
-is not specified then transformations for all variables are printed}
+\item{...}{other parameters}
 }
 \value{
 No return value, prints the structure of the object

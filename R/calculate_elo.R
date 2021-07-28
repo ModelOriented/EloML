@@ -74,7 +74,7 @@ calculate_wins_all_model <- function(results, list_models, compare_in_split, com
 
 }
 
-#' @title Extract coefficients from glmnet model
+#' @title Extract Coefficients From Glmnet Model
 #'
 #' @importFrom stats coefficients deviance
 #' @noRd
@@ -101,7 +101,7 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
     results
 }
 
-#' @title Extract coefficients from glm model
+#' @title Extract Coefficients From glm Model
 #'
 #' @importFrom stats coefficients deviance
 #' @noRd
@@ -148,13 +148,20 @@ create_summary_model_glmnet <- function(model_epp, model_names,  reference){
 }
 
 
-#' Calculate actual results for every pair of models
+#' @title Actual Results for Every Pair of Models
+#'
+#' @description Calculate number of wins and loses for every pair of Players.
+#'
+#' @details Naming convention, such as Player, Rounds, etc. comes from [Gosiewska et al. (2020)](https://arxiv.org/abs/2006.02293).
 #'
 #'
 #' @param results raw results
-#' @param decreasing_metric if used metric is decreasing
-#' @param compare_in_split if compare models and parameters only in the same fold
-#' @param aggregate if results should be aggregated for every pair of models and hyperparameters. Otherwise output will have many rows with binary response (according to amount of splits in cross-validation) for every pair of models
+#' @param decreasing_metric Logical. If Score is decreasing metrics.
+#' @param compare_in_split Logical. If Players should be compared only in the same Round. Setting to FALSE increase the number of Matches, but Score values of Players will be compared between different Rounds.
+#' @param aggregate Logical. If results should be aggregated for every pair of Players. Otherwise, output will have many rows with binary response (according to amount of Rounds in the Tournament) for every pair of Players.
+#'
+#' @return data.frame
+#'
 #' @export
 
 
@@ -188,7 +195,7 @@ calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_
   return(summary_results)
 }
 
-#' @title Preparing matrix of contrasts
+#' @title Preparing Matrix of Contrasts
 #'
 #' @param actual_score A data frame created with function calculate_actual_wins.
 #' @noRd
@@ -239,28 +246,32 @@ fit_glmnet_model <- function(glm_model_matrix_sparse, actual_score){
 }
 
 
-#' @title Calculate EPP score for all models
+#' @title Calculate EPP Meta-Scores for All Players
 #'
-#' @param results data frame with results for one dataset. Data should be in the following format.
-#' First 3 columns should correspond to: model, split, score. See more in 'details' section.
-#' @param decreasing_metric Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
-#' If FALSE used metric will be considered as increasing.
-#' @param compare_in_split Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.
+#' @param results Data frame. Results for one Round Data should be in the following format.
+#' First 3 columns should correspond to: Player, Round, Score. See more in 'details' section.
+#' @param decreasing_metric Logical. If TRUE used Score is considered as decreasing, that means a Player with higher Score value is considered as winner.
+#' If FALSE used Score will be considered as increasing.
+#' @param compare_in_split Logical. If TRUE compares Players only in the same fold. If FALSE compares Players across folds.
 #' @param keep_columns Logical. If TRUE original data frame with new 'epp' column will be returned.
 #' @param keep_model Logical. If TRUE logistic regression model to compute EPP will be returned.
-#' @param reference Model that should be a reference level for EPP scores. It should be a name of one of the models from
-#' 'results' data frame. If NULL, none of the models will be chosen.
+#' @param reference Character. Name of the Player that should be a reference level for EPP Meta-scores. It should be a name of one of the Players from
+#' 'results' data frame. If NULL, none of the Players will be chosen.
 #' @param keep_data If all the meta-data should be kept in result.
 #' @param estimation Method of estimating EPP coefficients, 'glm' or 'glmnet'.
 #'
 #' @details Format of the data frame passed via results parameter.
-#' First column should correspond to a model. Different settings of hyperparameters of the same model should have different values in this column.
-#' Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
-#' with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
-#' Indexes of splits should be in this column. And should match across models.
-#' Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
+#' First column should correspond to a Player.
+#' Second column corresponds to indexes of Rounds As EPP is based on Elo rating system, power of Player is assessed by comparing its results
+#' with other Players on multiple Rounds. Therefore, each Player should be evaluated on multiple Rounds.
+#' Indexes of ROunds should be in this column. And should match across Players.
+#' Third column contains Score used to evaluate models. It can be both decreasing or increasing metric.
 #' just remember to set the \code{decreasing_metric} parameter accordingly.
 #' The following columns can be of any kind.
+#'
+#' Naming convention, such as Player, Rounds, etc. comes from [Gosiewska et al. (2020)](https://arxiv.org/abs/2006.02293).
+#'
+#' @return epp_results
 #'
 #' @examples
 #' library(EloML)
