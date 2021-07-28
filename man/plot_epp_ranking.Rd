@@ -4,7 +4,12 @@
 \alias{plot_epp_ranking}
 \title{Plot EPP ranking}
 \usage{
-plot_epp_ranking(epp, aggregation = mean, confidence_intervals = FALSE)
+plot_epp_ranking(
+  epp,
+  aggregation = mean,
+  confidence_intervals = FALSE,
+  show_player_names = FALSE
+)
 }
 \arguments{
 \item{epp}{object of class epp_results.}
@@ -12,7 +17,21 @@ plot_epp_ranking(epp, aggregation = mean, confidence_intervals = FALSE)
 \item{aggregation}{aggregation function.}
 
 \item{confidence_intervals}{whether confidence intervals should be plotted. Only for "glmnet" estimation.}
+
+\item{show_player_names}{whether player names should be shown}
 }
 \description{
 Plot EPP ranking
+}
+\examples{
+library(EloML)
+data(auc_scores)
+epp <- calculate_epp(
+  auc_scores[1:60, ],
+  keep_columns=TRUE,
+  keep_model = TRUE,
+  estimation ="glm"
+  )
+plot_epp_ranking(epp, confidence_intervals = TRUE, show_player_names = TRUE)
+
 }
