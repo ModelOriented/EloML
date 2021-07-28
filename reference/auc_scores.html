@@ -53,7 +53,14 @@
 
 
 <meta property="og:title" content="AUC scores of models — auc_scores" />
-<meta property="og:description" content="Datasets auc_scores contains results of classification models," />
+<meta property="og:description" content="Dataset auc_scores contains a subset of binary classification models
+results from Kretowicz and Biecek (2020).
+
+model - name of model followed by a number indicating setting of hyperparameters
+split - indicator of split
+auc - area under the ROC curve
+
+" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -132,7 +139,14 @@
     </div>
 
     <div class="ref-description">
-    <p>Datasets <code>auc_scores</code> contains results of classification models,</p>
+    <p>Dataset <code>auc_scores</code> contains a subset of binary classification models
+results from <a href='https://arxiv.org/abs/2008.13162'>Kretowicz and Biecek (2020)</a>.</p>
+<ul>
+<li><p>model - name of model followed by a number indicating setting of hyperparameters</p></li>
+<li><p>split - indicator of split</p></li>
+<li><p>auc - area under the ROC curve</p></li>
+</ul>
+
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>auc_scores</span><span class='op'>)</span></code></pre></div>
@@ -140,16 +154,7 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>a data frame with 1600 rows and 3 columns</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-<ul>
-<li><p>model - name of model followed by a number indicating setting of hyperparameters</p></li>
-<li><p>split - indicator of split</p></li>
-<li><p>auc - area under the ROC curve</p></li>
-</ul>
-
+    <p>a data frame with 1600 rows and 3 columns.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

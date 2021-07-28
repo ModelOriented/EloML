@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot EPP ranking — plot_epp_ranking • EloML</title>
+<title>Plot EPP Meta-Score Ranking — plot_epp_ranking • EloML</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Plot EPP ranking — plot_epp_ranking" />
-<meta property="og:description" content="Plot EPP ranking" />
+<meta property="og:title" content="Plot EPP Meta-Score Ranking — plot_epp_ranking" />
+<meta property="og:description" content="EPP Meta-Score values vs Aggreated values of Scores." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -126,13 +126,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot EPP ranking</h1>
+    <h1>Plot EPP Meta-Score Ranking</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/plot_epp_ranking.R'><code>R/plot_epp_ranking.R</code></a></small>
     <div class="hidden name"><code>plot_epp_ranking.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot EPP ranking</p>
+    <p>EPP Meta-Score values vs Aggreated values of Scores.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_epp_ranking</span><span class='op'>(</span>
@@ -147,22 +147,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>epp</th>
-      <td><p>object of class epp_results.</p></td>
+      <td><p>epp_results. The result of a function <code><a href='calculate_epp.html'>calculate_epp</a></code>.</p></td>
     </tr>
     <tr>
       <th>aggregation</th>
-      <td><p>aggregation function.</p></td>
+      <td><p>Function. Aggregation function, for example mean or median.</p></td>
     </tr>
     <tr>
       <th>confidence_intervals</th>
-      <td><p>whether confidence intervals should be plotted. Only for "glmnet" estimation.</p></td>
+      <td><p>Logical. If confidence intervals should be plotted. Only for 'glm' estimation.</p></td>
     </tr>
     <tr>
       <th>show_player_names</th>
-      <td><p>whether player names should be shown</p></td>
+      <td><p>Logical. If Players' names should be shown.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>gg</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Naming convention, such as Player, Rounds, etc. comes from <a href='https://arxiv.org/abs/2006.02293'>Gosiewska et al. (2020)</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ModelOriented/EloML'>EloML</a></span><span class='op'>)</span></span>

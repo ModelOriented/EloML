@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test the differences between two EPP Scores — test_players_diff • EloML</title>
+<title>Test for the Differences Between Two EPP Meta-Scores — test_players_diff • EloML</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Test the differences between two EPP Scores — test_players_diff" />
-<meta property="og:description" content="The test is based on the Wald test." />
+<meta property="og:title" content="Test for the Differences Between Two EPP Meta-Scores — test_players_diff" />
+<meta property="og:description" content="The test is based on the Wald test for logistic regression used to estimate EPP." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -126,13 +126,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test the differences between two EPP Scores</h1>
+    <h1>Test for the Differences Between Two EPP Meta-Scores</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/wald_test.R'><code>R/wald_test.R</code></a></small>
     <div class="hidden name"><code>test_players_diff.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The test is based on the Wald test.</p>
+    <p>The test is based on the Wald test for logistic regression used to estimate EPP.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>test_players_diff</span><span class='op'>(</span><span class='va'>epp</span>, <span class='va'>player1</span>, <span class='va'>player2</span><span class='op'>)</span></code></pre></div>
@@ -142,18 +142,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>epp</th>
-      <td><p>object of class epp_results.</p></td>
+      <td><p>epp_results. The result of a function <code><a href='calculate_epp.html'>calculate_epp</a></code>.</p></td>
     </tr>
     <tr>
       <th>player1</th>
-      <td><p>Name of the first player to test</p></td>
+      <td><p>Character. Name of the first Player to test.</p></td>
     </tr>
     <tr>
       <th>player2</th>
-      <td><p>Name of the second player to test</p></td>
+      <td><p>Character. Name of the second Player to test.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>epp_test</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Naming convention, such as Player, Rounds, etc. comes from <a href='https://arxiv.org/abs/2006.02293'>Gosiewska et al. (2020)</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>auc_scores</span><span class='op'>)</span></span>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate EPP score for all models — calculate_epp • EloML</title>
+<title>Calculate EPP Meta-Scores for All Players — calculate_epp • EloML</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Calculate EPP score for all models — calculate_epp" />
-<meta property="og:description" content="Calculate EPP score for all models" />
+<meta property="og:title" content="Calculate EPP Meta-Scores for All Players — calculate_epp" />
+<meta property="og:description" content="Calculate EPP Meta-Scores for All Players" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -126,13 +126,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate EPP score for all models</h1>
+    <h1>Calculate EPP Meta-Scores for All Players</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/EloML/blob/master/R/calculate_elo.R'><code>R/calculate_elo.R</code></a></small>
     <div class="hidden name"><code>calculate_epp.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate EPP score for all models</p>
+    <p>Calculate EPP Meta-Scores for All Players</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>calculate_epp</span><span class='op'>(</span>
@@ -151,17 +151,17 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>results</th>
-      <td><p>data frame with results for one dataset. Data should be in the following format.
-First 3 columns should correspond to: model, split, score. See more in 'details' section.</p></td>
+      <td><p>Data frame. Results for one Round Data should be in the following format.
+First 3 columns should correspond to: Player, Round, Score. See more in 'details' section.</p></td>
     </tr>
     <tr>
       <th>decreasing_metric</th>
-      <td><p>Logical. If TRUE used metric is considered as decreasing, that means a model with higher score value is considered as better model.
-If FALSE used metric will be considered as increasing.</p></td>
+      <td><p>Logical. If TRUE used Score is considered as decreasing, that means a Player with higher Score value is considered as winner.
+If FALSE used Score will be considered as increasing.</p></td>
     </tr>
     <tr>
       <th>compare_in_split</th>
-      <td><p>Logical. If TRUE compares models only in the same fold. If FALSE compares models across folds.</p></td>
+      <td><p>Logical. If TRUE compares Players only in the same fold. If FALSE compares Players across folds.</p></td>
     </tr>
     <tr>
       <th>keep_columns</th>
@@ -173,8 +173,8 @@ If FALSE used metric will be considered as increasing.</p></td>
     </tr>
     <tr>
       <th>reference</th>
-      <td><p>Model that should be a reference level for EPP scores. It should be a name of one of the models from
-'results' data frame. If NULL, none of the models will be chosen.</p></td>
+      <td><p>Character. Name of the Player that should be a reference level for EPP Meta-scores. It should be a name of one of the Players from
+'results' data frame. If NULL, none of the Players will be chosen.</p></td>
     </tr>
     <tr>
       <th>keep_data</th>
@@ -186,16 +186,20 @@ If FALSE used metric will be considered as increasing.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>epp_results</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Format of the data frame passed via results parameter.
-First column should correspond to a model. Different settings of hyperparameters of the same model should have different values in this column.
-Second column corresponds to indexes of splits. As EPP is based on Elo rating system, power of model is assessed by comparing its results
-with other models on multiple data splits. Therefore, each model should be evaluated on multiple train-test splits.
-Indexes of splits should be in this column. And should match across models.
-Third column contains score used to evaluate models. It can be both decreasing or increasing metric,
+First column should correspond to a Player.
+Second column corresponds to indexes of Rounds As EPP is based on Elo rating system, power of Player is assessed by comparing its results
+with other Players on multiple Rounds. Therefore, each Player should be evaluated on multiple Rounds.
+Indexes of ROunds should be in this column. And should match across Players.
+Third column contains Score used to evaluate models. It can be both decreasing or increasing metric.
 just remember to set the <code>decreasing_metric</code> parameter accordingly.
 The following columns can be of any kind.</p>
+<p>Naming convention, such as Player, Rounds, etc. comes from <a href='https://arxiv.org/abs/2006.02293'>Gosiewska et al. (2020)</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ModelOriented/EloML'>EloML</a></span><span class='op'>)</span></span>
