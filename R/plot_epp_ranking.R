@@ -35,8 +35,8 @@ plot_epp_ranking <- function(epp, aggregation = mean, confidence_intervals = FAL
   score_name <- colnames(epp[["epp"]])[3]
   plot_df <- epp[["epp"]][, c(player_name, score_name, "epp")]
   plot_df <- merge(
-    aggregate(as.formula(paste(score_name, "~", player_name)), data = plot_df, FUN = mean),
-    aggregate(as.formula(paste("epp", "~", player_name)), data = plot_df, FUN = mean)
+    aggregate(as.formula(paste(score_name, "~", player_name)), data = plot_df, FUN = aggregation),
+    aggregate(as.formula(paste("epp", "~", player_name)), data = plot_df, FUN = aggregation)
     )
   if(confidence_intervals){
     conf <- summary(epp[["model"]])$coefficients[,2]
