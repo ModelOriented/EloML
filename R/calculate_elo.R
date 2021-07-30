@@ -139,8 +139,8 @@ create_summary_model_glmnet <- function(model_epp, player_names,  reference){
 
     results[['epp']][, 'epp'] <- results[["epp"]][,'epp'] - reference_level
       results[['epp_summary']][, 'epp'] <- results[["epp_summary"]][,'epp'] - reference_level
-      results[['epp_summary']][, 'conf.lower'] <- results[["epp_summary"]][,'conf.lower'] - reference_level
-      results[['epp_summary']][, 'conf.upper'] <- results[["epp_summary"]][,'conf.upper'] - reference_level
+      results[['epp_summary']][, 'conf.lower'] <- results[["epp_summary"]][,'conf_lower'] - reference_level
+      results[['epp_summary']][, 'conf.upper'] <- results[["epp_summary"]][,'conf_upper'] - reference_level
 
   }
 
@@ -165,7 +165,8 @@ create_summary_model_glmnet <- function(model_epp, player_names,  reference){
 #' @export
 
 
-calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_round, aggregate = TRUE){
+calculate_actual_wins <- function(results, decreasing_metric = TRUE, compare_in_round = TRUE, aggregate = TRUE){
+  colnames(results) <- c("player", "round", "score")
   ### define comparison of metrics
   if(decreasing_metric){
     is_metric1_better <- function(metric1, metric2){

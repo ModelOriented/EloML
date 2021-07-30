@@ -35,7 +35,7 @@ test_players_diff <- function(epp, player1, player2){
   Q <- t(cb) %*% solve(cvc) %*% cb
 
   structure(
-    .Data = list(player1, player2, Q, 1 - pchisq(Q, df = 2)),
+    .Data = list(player1, player2, Q, 1 - pchisq(Q[1,1], df = 2)),
     .Names = c("player1", "player2", "statistic", "pvalue"),
     class = "epp_test"
   )
