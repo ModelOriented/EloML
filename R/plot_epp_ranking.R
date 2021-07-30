@@ -1,6 +1,6 @@
 #' @title Plot EPP Meta-Score Ranking
 #'
-#' @description EPP Meta-Score values vs Aggreated values of Scores.
+#' @description EPP Meta-Score values vs Aggregated values of Scores.
 #'
 #' @param epp epp_results. The result of a function \code{\link{calculate_epp}}.
 #' @param aggregation Function. Aggregation function, for example mean or median.

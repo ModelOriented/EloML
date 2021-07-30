@@ -46,7 +46,7 @@ Format of the data frame passed via results parameter.
 First column should correspond to a Player.
 Second column corresponds to indexes of Rounds As EPP is based on Elo rating system, power of Player is assessed by comparing its results
 with other Players on multiple Rounds. Therefore, each Player should be evaluated on multiple Rounds.
-Indexes of ROunds should be in this column. And should match across Players.
+Indexes of Rounds should be in this column. And should match across Players.
 Third column contains Score used to evaluate players. It can be both decreasing or increasing metric.
 just remember to set the \code{decreasing_metric} parameter accordingly.
 The following columns can be of any kind.

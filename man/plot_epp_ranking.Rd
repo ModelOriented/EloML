@@ -24,7 +24,7 @@ plot_epp_ranking(
 gg
 }
 \description{
-EPP Meta-Score values vs Aggreated values of Scores.
+EPP Meta-Score values vs Aggregated values of Scores.
 }
 \details{
 Naming convention, such as Player, Rounds, etc. comes from \href{https://arxiv.org/abs/2006.02293}{Gosiewska et al. (2020)}.
