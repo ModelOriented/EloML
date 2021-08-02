@@ -26,7 +26,7 @@
 #' @export
 plot_wins_ratio <- function(epp, random_sample = NULL, random_state = NULL){
   ratio <- pred_ratio <- NULL
-  if(!("actual_score" %in% names(epp))) stop("Use `keep_data == TRUE` parameter in function `calculate_epp()`")
+  if(is.null(epp[["actual_score"]])) stop("Use `keep_data == TRUE` parameter in function `calculate_epp()`")
   actual_score <- epp$actual_score
   epp_score <- epp$epp
 

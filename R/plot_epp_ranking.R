@@ -28,7 +28,7 @@
 #' @export
 plot_epp_ranking <- function(epp, aggregation = mean, confidence_intervals = FALSE, show_player_names = FALSE){
   if(ncol(epp[["epp"]]) == 2) stop("Use `keep_columns == TRUE` parameter in function `calculate_epp()`")
-  if(!("model" %in% names(epp)) & confidence_intervals)  stop("Use `keep_model == TRUE` parameter in function `calculate_epp()`")
+  if(is.null(epp[["model"]]) & confidence_intervals)  stop("Use `keep_model == TRUE` parameter in function `calculate_epp()`")
   if((epp[["estimation"]] != "glm") & confidence_intervals)  stop("Use `estimation == 'glm'` parameter in function `calculate_epp()`")
 
   player_name <- colnames(epp[["epp"]])[1]

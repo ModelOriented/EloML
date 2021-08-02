@@ -315,17 +315,17 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_round = 
   }
 
 
-
+  browser()
   if(keep_data == TRUE){
-    res <- c(epp_list,
-                list(actual_score = actual_score))
-    class(res) <- c("epp_results", "list")
+    res <- c(epp_list, list(actual_score = actual_score))
   } else {
-    res <- epp_list
-    class(res) <- c("epp_results", "list")
+    res <- c(epp_list, list(actual_score=NULL)
   }
+  class(res) <- c("epp_results", "list")
   if(keep_model == TRUE){
     res[["model"]] <- model_epp
+  } else {
+    res[["model"]] <- NULL
   }
   res[["estimation"]] <- estimation
 
