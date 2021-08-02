@@ -7,7 +7,7 @@
 calculate_actual_wins(
   results,
   decreasing_metric = TRUE,
-  compare_in_round,
+  compare_in_round = TRUE,
   aggregate = TRUE
 )
 }
