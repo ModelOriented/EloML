@@ -319,7 +319,7 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_round = 
   if(keep_data == TRUE){
     res <- c(epp_list, list(actual_score = actual_score))
   } else {
-    res <- c(epp_list, list(actual_score=NULL)
+    res <- c(epp_list, list(actual_score=NULL))
   }
   class(res) <- c("epp_results", "list")
   if(keep_model == TRUE){
