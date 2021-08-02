@@ -314,8 +314,6 @@ calculate_epp <- function(results, decreasing_metric = TRUE, compare_in_round = 
     # colnames(epp_list[['epp']])[1:3] <- colnames(results)[1:3]
   }
 
-
-  browser()
   if(keep_data == TRUE){
     res <- c(epp_list, list(actual_score = actual_score))
   } else {
