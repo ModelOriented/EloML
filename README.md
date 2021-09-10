@@ -16,6 +16,8 @@ Find more in the [EPP: interpretable score of model predictive power](https://ar
 
 ## Installation
 
+Installation time should not exceed 1 minute.
+
 ```r
 # Install the the development version from GitHub:
 # install.packages("devtools")
@@ -23,6 +25,8 @@ devtools::install_github("ModelOriented/EloML")
 ```
 
 ## Usage
+
+The following example takes less than 20 seconds to complete.
 
 ```r
 library(EloML)
