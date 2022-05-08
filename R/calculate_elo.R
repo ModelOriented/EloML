@@ -85,10 +85,13 @@ create_summary_model_glmnet <- function(model_epp, player_names,  reference){
                             df = df.residual(model_epp))
     vector_coeff_model <- as.vector(coefficients(model_epp))
     intercept <- vector_coeff_model[1]
+
+    ## in default setting reference player is the last one
+    default_reference_level <- vector_coeff_model[length(vector_coeff_model)]
     epp_summary <- data.frame(player = player_names,
-                         epp = vector_coeff_model[-1] - intercept)
+                         epp = vector_coeff_model[-1] - (intercept + default_reference_level))
     rownames(epp_summary) <- NULL
-    epp_summary[nrow(epp_summary),2] <- 0
+
 
     results <- list(epp = epp_summary,
                     residual_deviance = residual_deviance)
