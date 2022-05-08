@@ -31,5 +31,5 @@ The following example takes less than 20 seconds to complete.
 ```r
 library(EloML)
 data(auc_scores)
-calculate_elo(auc_scores)
+calculate_epp(auc_scores)
 ```
